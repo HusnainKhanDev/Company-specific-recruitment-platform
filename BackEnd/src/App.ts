@@ -2,12 +2,14 @@ import express from 'express'
 import { StartApolloServer } from './GraphQL/ApolloServer.js'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
-import path from 'path'
 dotenv.config();
 
 const port = process.env.PORT
 const DataBase = process.env.DBName
 const app = express()
+
+//MiddleWares-----------------------------------------------
+app.use(express.json())
 
 
 //Servers---------------------------------------------------
@@ -25,6 +27,5 @@ mongoose.connect(`mongodb://127.0.0.1/${DataBase}`)
     console.log('Error While Connecting DB')
 })
 
-//MiddleWares-----------------------------------------------
-app.use(express.json())
+
 

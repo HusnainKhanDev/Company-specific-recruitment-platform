@@ -1,0 +1,33 @@
+import mongoose from "mongoose";
+const UserSchema = new mongoose.Schema({
+    fullname: {
+        type: String,
+        require: true
+    },
+    phone: {
+        type: String,
+        unique: true,
+        sparse: true,
+        default: null // Allows multiple nulls in collection
+    },
+    email: {
+        type: String,
+        require: true,
+        unique: true
+    },
+    password: {
+        type: String,
+    },
+    googleId: {
+        type: String,
+        unique: true,
+        default: null, // Allows multiple nulls in collection
+        sparse: true, // allows multiple nulls in collection with out it multiple nulls create duplicate error
+    },
+    role: {
+        type: String,
+        enum: ["Candidate", "Employeer"],
+        default: "Candidate"
+    }
+});
+export default mongoose.model('user', UserSchema);

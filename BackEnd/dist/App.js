@@ -6,6 +6,8 @@ dotenv.config();
 const port = process.env.PORT;
 const DataBase = process.env.DBName;
 const app = express();
+//MiddleWares-----------------------------------------------
+app.use(express.json());
 //Servers---------------------------------------------------
 StartApolloServer(app);
 app.listen(port, () => {
@@ -18,5 +20,3 @@ mongoose.connect(`mongodb://127.0.0.1/${DataBase}`)
     .catch(() => {
     console.log('Error While Connecting DB');
 });
-//MiddleWares-----------------------------------------------
-app.use(express.json());

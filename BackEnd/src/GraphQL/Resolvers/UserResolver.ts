@@ -1,5 +1,8 @@
+import { createNewUser } from "../../Controllers/UserController.js"
+
+
 export const UserResolvers = {
-  Query: {
-    hello: () => 'Hello world!',
+  Mutation: {
+    CreateUser: createNewUser,
   },
 }

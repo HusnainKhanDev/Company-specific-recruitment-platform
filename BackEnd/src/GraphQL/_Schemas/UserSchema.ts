@@ -23,5 +23,6 @@ export const UsertypeDefs = /* GraphQL */ `
 
   type Mutation {
     CreateUser(input: CreateUserInput): User
+    LoginUser(email: String!, password: String!): User
   }
 `

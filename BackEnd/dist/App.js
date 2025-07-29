@@ -1,6 +1,8 @@
 import express from 'express';
 import { StartApolloServer } from './GraphQL/ApolloServer.js';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import mongoose from 'mongoose';
 dotenv.config();
 const port = process.env.PORT;
@@ -8,6 +10,8 @@ const DataBase = process.env.DBName;
 const app = express();
 //MiddleWares-----------------------------------------------
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors());
 //Servers---------------------------------------------------
 StartApolloServer(app);
 app.listen(port, () => {

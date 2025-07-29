@@ -11,5 +11,8 @@ export async function StartApolloServer(app) {
         resolvers: AllResolvers
     });
     await Server.start();
-    app.use('/graphql', expressMiddleware(Server));
+    app.use('/graphql', expressMiddleware(Server, { context: async ({ req, res }) => {
+            return { req, res };
+        }
+    }));
 }

@@ -1,4 +1,4 @@
-//Using in UserController.ts
+//Using in CreateNewUser.ts
 export interface UserArgs {
     input: {
         fullname: string;
@@ -9,7 +9,7 @@ export interface UserArgs {
     }
 }
 
-//Using in UserServices.ts
+//Using in UserServices.ts Parameters of InsertNewUser
 export interface ParamsIF {
     fullname: string;
     phone?: string;
@@ -18,4 +18,23 @@ export interface ParamsIF {
     googleId?: string;
 }
 
-export type ConFn<T> = (_:any, args:T) => Promise<any>;
+//using in SingInUser/UserController
+export interface SignInUser {
+    email: string;
+    password: string;
+}
+
+//Shape of User in Database /Using in SingInUser/UserController
+export interface DBUser {
+    _id: any;
+    fullname: string;
+    phone?: string | null | undefined;
+    email: string;
+    password: string;
+    googleId?: string | null | undefined;
+    role: string;
+}
+
+//Using in Controllers/UserController.ts
+//Function type for Controllers
+export type ConFn<T> = (_:any, args:T, context:any) => Promise<any>;

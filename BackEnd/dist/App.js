@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import { GoogleAuthRoutes } from './AuthRoutes.js';
 dotenv.config();
 const port = process.env.PORT;
 const DataBase = process.env.DBName;
@@ -12,11 +13,14 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+//Auth Route------------------------------------------------
+GoogleAuthRoutes(app);
 //Servers---------------------------------------------------
 StartApolloServer(app);
 app.listen(port, () => {
     console.log(`Server is Running On Port ${port}`);
 });
+// DataBase Connection--------------------------------------
 mongoose.connect(`mongodb://127.0.0.1/${DataBase}`)
     .then(() => {
     console.log('DataBase is Connected Successfuly');

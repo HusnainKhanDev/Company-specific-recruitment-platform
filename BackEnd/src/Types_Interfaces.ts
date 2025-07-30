@@ -14,7 +14,7 @@ export interface ParamsIF {
     fullname: string;
     phone?: string;
     email: string;
-    Bpassword: string;
+    Bpassword?: string;
     googleId?: string;
 }
 
@@ -30,7 +30,7 @@ export interface DBUser {
     fullname: string;
     phone?: string | null | undefined;
     email: string;
-    password: string;
+    password?: string | null | undefined;
     googleId?: string | null | undefined;
     role: string;
 }

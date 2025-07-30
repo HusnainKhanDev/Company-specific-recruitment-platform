@@ -5,12 +5,14 @@ import { expressMiddleware } from "@as-integrations/express5";
 
 import { UsertypeDefs } from "./_Schemas/UserSchema.js";
 import { UserResolvers } from "./Resolvers/UserResolver.js";
+import { JobsTypeDefs } from "./_Schemas/JobSchema.js";
+import { JobsResolvers } from "./Resolvers/JobResolver.js";
 
 
 export async function StartApolloServer(app: any){
 
-    const AllTypeDefs = mergeTypeDefs([UsertypeDefs])
-    const AllResolvers = mergeResolvers([UserResolvers])
+    const AllTypeDefs = mergeTypeDefs([UsertypeDefs, JobsTypeDefs])
+    const AllResolvers = mergeResolvers([UserResolvers, JobsResolvers])
 
     const Server = new ApolloServer({
         typeDefs: AllTypeDefs,

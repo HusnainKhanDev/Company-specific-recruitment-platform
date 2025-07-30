@@ -115,6 +115,7 @@ export async function HandleGoogleCallback(req: Request, res: Response) {
 
     // Extracts that code from the URL — it's needed to request an access token.
     // http://localhost:4000/auth/google/callback?code=abc123xyz
+    //Step: 1: You get the code from the query parameters
     const code = req.query.code as string;
     if (!code) {
         return res.status(400).send("No code provided");
@@ -122,6 +123,7 @@ export async function HandleGoogleCallback(req: Request, res: Response) {
 
     // You’re sending a POST request to Google’s token endpoint to say:
     // “Hey Google, here’s the code the user gave me. Can I get the real tokens now?”
+    //Step: 2: You send a POST request to Google’s token endpoint
     const tokenRes = await axios.post("https://oauth2.googleapis.com/token", {
         code,
         client_id: process.env.GOOGLE_CLIENT_ID,
@@ -133,12 +135,14 @@ export async function HandleGoogleCallback(req: Request, res: Response) {
 
     // access_token: You can use this to get user info from Google
     // id_token: A JWT-style token with user identity (optional)
+    // Step: 3: You get the access token and id token from the response
     const { access_token, id_token } = tokenRes.data;
     if (!access_token || !id_token) {
         return console.log("Failed to get access token");
     }
 
     //You now make a GET request to Google's User Info API, attaching the access token in the headers.
+    // Step: 4: You fetch the user info from Google using the access token
     const userRes = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
         headers: {
             Authorization: `Bearer ${access_token}`,
@@ -147,8 +151,9 @@ export async function HandleGoogleCallback(req: Request, res: Response) {
 
     // sub: Unique Google ID for that user
     // always save sub as googleId in your database.
+    // Step: 5: You extract user info like email, name, picture, and Google ID
     const { email, name, picture, sub } = userRes.data;
-    console.log("User Info:", userRes.data);
+
     if (!email || !name || !sub) {
         return console.log("Failed to get user info");
     }

@@ -30,4 +30,4 @@ export const JobsTypeDefs = /* GraphQL */ `
     type Mutation {
         CreateNewJob(input: JobInput!): Job!
     }
-`
+`;

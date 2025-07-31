@@ -38,3 +38,30 @@ export interface DBUser {
 //Using in Controllers/UserController.ts
 //Function type for Controllers
 export type ConFn<T> = (_:any, args:T, context:any) => Promise<any>;
+
+//using in createJob Service
+export interface JobParamsIF {
+    title: string;
+    closingDate: string;
+    workSetup: string;
+    salary: string;
+    description: string;
+    requirements: [string],
+    jobType: string,
+    createdBy: string;
+}
+
+
+//Using in Controllers/JobController.ts
+export interface JobArgs {
+    input: {
+        title: string
+        closingDate: string
+        workSetup: string
+        salary: string
+        description: string
+        requirements: [string]
+        jobType: string
+        createdBy: string
+    }
+}

@@ -35,9 +35,11 @@ export interface DBUser {
     role: string;
 }
 
-//Using in Controllers/UserController.ts
-//Function type for Controllers
+//Using in Controllers/UserController Function type for Controllers
 export type ConFn<T> = (_:any, args:T, context:any) => Promise<any>;
+
+
+// Job Feature Interfaces & Types------------------------------------------------------------------------------
 
 //using in createJob Service
 export interface JobParamsIF {
@@ -64,4 +66,10 @@ export interface JobArgs {
         jobType: string
         createdBy: string
     }
+}
+
+// JOb Search controller parameters
+export interface JobSearchArgs {
+    field: string;
+    value: string;
 }

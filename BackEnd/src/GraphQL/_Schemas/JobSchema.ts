@@ -24,7 +24,8 @@ export const JobsTypeDefs = /* GraphQL */ `
     }
 
     type Query {
-        hello2: String
+        GetAllJobs: [Job]!
+        SearchJobByField(field: String!, value: String!): [Job]!
     }
 
     type Mutation {

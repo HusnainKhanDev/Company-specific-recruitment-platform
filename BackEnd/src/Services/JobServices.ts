@@ -32,3 +32,35 @@ export async function createJob(params: JobParamsIF) {
     }
 
 }
+
+export async function getAllJobs() {
+    try {
+        const jobs = await JobModel.find();
+        return jobs;
+    } catch (err: any) {
+        console.error("Error fetching jobs:", err);
+        throw new Error(err.message);
+    }
+}
+
+export async function searchJob(field: string, value: string) {
+    try{
+        if (!field || !value) {
+            throw new Error("Field and value are required for search.");
+        }
+        const query: any = { [field]: value }
+        console.log("Search Query:", query);
+        const result = await JobModel.find(query);  
+        console.log("Search Result:", result);
+        if (!result || result.length === 0) {
+            throw new Error("No jobs found for the given search criteria.");
+        }
+
+        return result;
+    }
+    catch (err: any) {
+        console.error("Error searching job:", err);
+        throw new Error(err.message);
+    }
+
+}

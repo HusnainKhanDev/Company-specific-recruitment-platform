@@ -1,12 +1,9 @@
 import { GraphQLError } from "graphql";
-import { createJob } from "../Services/JobServices.js";
-import { ConFn, JobArgs } from "../Types_Interfaces.js";
+import { createJob, getAllJobs, searchJob } from "../Services/JobServices.js";
+import { ConFn, JobArgs, JobSearchArgs } from "../Types_Interfaces.js";
 
 
-
-
-
-export const ListNewJob: ConFn<JobArgs> = async (_: any, args: JobArgs, context: any) => {
+export const ListNewJob: ConFn<JobArgs> = async (_: any, args: JobArgs) => {
     const { title, closingDate, workSetup, salary, description, requirements, jobType, createdBy } = args.input;
 
     if (!title || !closingDate || !workSetup || !description || !jobType || !createdBy || !requirements) {
@@ -37,3 +34,33 @@ export const ListNewJob: ConFn<JobArgs> = async (_: any, args: JobArgs, context:
     }
 
 }
+
+export const FetchAllJobs: ConFn<null> = async () => {
+    try {
+        const jobs = await getAllJobs(); 
+        return jobs;
+    } catch (err: any) {
+        console.error("Error fetching jobs:", err);
+        throw new GraphQLError(err.message);
+    }
+}
+
+export const SearchJobByField: ConFn<JobSearchArgs> = async (_: any, args: JobSearchArgs) => {
+    const { field, value } = args;
+
+    if (!field || !value) {
+        throw new GraphQLError("Field and value are required for search.");
+    }
+
+    try{
+        const Jobs = await searchJob(field, value);
+        return Jobs;
+    }
+
+    catch (err: any) {
+        console.error("Error searching job:", err);
+        throw new GraphQLError(err.message);
+    }
+}
+
+

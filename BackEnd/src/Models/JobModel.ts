@@ -4,6 +4,7 @@ const JobSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
+    lowercase: true,
   },
   closingDate: {
     type: Date,
@@ -13,6 +14,7 @@ const JobSchema = new mongoose.Schema({
     type: String,
     enum: ["Onsite", "Remote", "Hybrid"],
     required: true,
+    lowercase: true,
   },
   salary: {
     type: String,
@@ -30,6 +32,7 @@ const JobSchema = new mongoose.Schema({
     type: String,
     enum: ["Full-time", "Part-time", "Internship"],
     required: true,
+    lowercase: true,
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

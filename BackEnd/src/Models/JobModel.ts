@@ -12,7 +12,7 @@ const JobSchema = new mongoose.Schema({
   },
   workSetup: {
     type: String,
-    enum: ["Onsite", "Remote", "Hybrid"],
+    enum: ["onsite", "remote", "hybrid"],
     required: true,
     lowercase: true,
   },
@@ -30,7 +30,7 @@ const JobSchema = new mongoose.Schema({
   },
   jobType:{
     type: String,
-    enum: ["Full-time", "Part-time", "Internship"],
+    enum: ["full-time", "part-time", "internship"],
     required: true,
     lowercase: true,
   },

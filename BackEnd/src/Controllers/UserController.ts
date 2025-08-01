@@ -14,7 +14,12 @@ export const createNewUser: ConFn<UserArgs> = async (_: any, args: UserArgs, con
     const { fullname, phone, email, password, googleId } = args.input
 
     if (!fullname || !email || !password) {
-        throw new GraphQLError("Please provide all required fields.")
+        throw new GraphQLError("Please provide all required fields.", {
+            extensions: {
+                code: 'BAD_USER_INPUT',
+                statusCode: 400
+            }
+        })
     }
 
     const Bpassword: string = bcrypt.hashSync(password, 10)
@@ -33,12 +38,22 @@ export const createNewUser: ConFn<UserArgs> = async (_: any, args: UserArgs, con
             console.log(token)
             return newUser
         } else {
-            throw new GraphQLError("User creation failed.")
+            throw new GraphQLError("User creation failed.", {
+                extensions: {
+                    code: 'INTERNAL_SERVER_ERROR',
+                    statusCode: 500
+                }
+            })
         }
 
     } catch (err: any) {
         console.log("Error in Signing Up User", err.message)
-        throw new GraphQLError(err.message)
+        throw new GraphQLError(err.message, {
+            extensions: {
+                code: 'INTERNAL_SERVER_ERROR',
+                statusCode: 500
+            }
+        })
     }
 }
 
@@ -46,7 +61,12 @@ export const SingInUser: ConFn<SignInUser> = async (_: any, args: SignInUser, co
     const { email, password } = args
 
     if (!email || !password) {
-        throw new GraphQLError("Please provide email and password.")
+        throw new GraphQLError("Please provide email and password.", {
+            extensions: {
+                code: 'BAD_USER_INPUT',
+                statusCode: 400
+            }
+        })
     }
 
     try {
@@ -67,16 +87,31 @@ export const SingInUser: ConFn<SignInUser> = async (_: any, args: SignInUser, co
 
                 return User
             } else {
-                throw new GraphQLError("Invalid password.")
+                throw new GraphQLError("Invalid password.", {
+                    extensions: {
+                        code: 'WRONG_PASSWORD',
+                        statusCode: 400
+                    }
+                })
             }
         }
-        else{
-            throw new GraphQLError("User Does Not Exist.")
+        else {
+            throw new GraphQLError("User Does Not Exist." ,{
+                extensions: {
+                    code: 'USER_NOT_FOUND',
+                    statusCode: 404
+                }
+            })
         }
     }
     catch (err: any) {
         console.log("Error in SingInUser", err.message)
-        throw new GraphQLError(err.message)
+        throw new GraphQLError(err.message, {
+            extensions: {
+                code: 'INTERNAL_SERVER_ERROR',
+                statusCode: 500
+            }
+        })
     }
 
 
@@ -157,7 +192,7 @@ export async function HandleGoogleCallback(req: Request, res: Response) {
     if (!email || !name || !sub) {
         return console.log("Failed to get user info");
     }
-    
+
     try {
         const isUserInDB = await FindUserByEmail(email);
         if (!isUserInDB) {
@@ -176,31 +211,31 @@ export async function HandleGoogleCallback(req: Request, res: Response) {
                     secure: false,
                     sameSite: "lax"
                 });
-                return res.redirect( String(process.env.FRONTEND_URL) )
+                return res.redirect(String(process.env.FRONTEND_URL))
             }
-            else{
+            else {
                 return console.log("Error creating user");
             }
         }
-        else{
+        else {
             const Secret = String(process.env.JWT_SECRET);
             const UpdatedUser = await UpdateUserGoogleID(email, sub);
             if (!UpdatedUser) {
                 return console.log("Error updating user Google ID");
             }
-            else{
+            else {
                 let token: string = jwt.sign({ ID: isUserInDB._id, role: isUserInDB.role }, Secret, { expiresIn: '1d' });
                 res.cookie("token", token, {
                     httpOnly: true,
                     secure: false,
                     sameSite: "lax"
                 });
-                return res.redirect( String(process.env.FRONTEND_URL) );
+                return res.redirect(String(process.env.FRONTEND_URL));
             }
-            
+
         }
     }
-    catch(err: any) {
+    catch (err: any) {
         console.log("Error in HandleGoogleCallback", err.message);
     }
 

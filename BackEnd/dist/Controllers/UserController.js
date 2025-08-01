@@ -6,7 +6,12 @@ import axios from "axios";
 export const createNewUser = async (_, args, context) => {
     const { fullname, phone, email, password, googleId } = args.input;
     if (!fullname || !email || !password) {
-        throw new GraphQLError("Please provide all required fields.");
+        throw new GraphQLError("Please provide all required fields.", {
+            extensions: {
+                code: 'BAD_USER_INPUT',
+                statusCode: 400
+            }
+        });
     }
     const Bpassword = bcrypt.hashSync(password, 10);
     try {
@@ -23,18 +28,33 @@ export const createNewUser = async (_, args, context) => {
             return newUser;
         }
         else {
-            throw new GraphQLError("User creation failed.");
+            throw new GraphQLError("User creation failed.", {
+                extensions: {
+                    code: 'INTERNAL_SERVER_ERROR',
+                    statusCode: 500
+                }
+            });
         }
     }
     catch (err) {
         console.log("Error in Signing Up User", err.message);
-        throw new GraphQLError(err.message);
+        throw new GraphQLError(err.message, {
+            extensions: {
+                code: 'INTERNAL_SERVER_ERROR',
+                statusCode: 500
+            }
+        });
     }
 };
 export const SingInUser = async (_, args, context) => {
     const { email, password } = args;
     if (!email || !password) {
-        throw new GraphQLError("Please provide email and password.");
+        throw new GraphQLError("Please provide email and password.", {
+            extensions: {
+                code: 'BAD_USER_INPUT',
+                statusCode: 400
+            }
+        });
     }
     try {
         const User = await FindUserByEmail(email);
@@ -51,16 +71,31 @@ export const SingInUser = async (_, args, context) => {
                 return User;
             }
             else {
-                throw new GraphQLError("Invalid password.");
+                throw new GraphQLError("Invalid password.", {
+                    extensions: {
+                        code: 'WRONG_PASSWORD',
+                        statusCode: 400
+                    }
+                });
             }
         }
         else {
-            throw new GraphQLError("User Does Not Exist.");
+            throw new GraphQLError("User Does Not Exist.", {
+                extensions: {
+                    code: 'USER_NOT_FOUND',
+                    statusCode: 404
+                }
+            });
         }
     }
     catch (err) {
         console.log("Error in SingInUser", err.message);
-        throw new GraphQLError(err.message);
+        throw new GraphQLError(err.message, {
+            extensions: {
+                code: 'INTERNAL_SERVER_ERROR',
+                statusCode: 500
+            }
+        });
     }
 };
 // Goal of this Code:To redirect the user to Google’s OAuth2.0 login page with the required info

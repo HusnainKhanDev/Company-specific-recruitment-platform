@@ -10,7 +10,16 @@ export async function StartApolloServer(app) {
     const AllResolvers = mergeResolvers([UserResolvers, JobsResolvers]);
     const Server = new ApolloServer({
         typeDefs: AllTypeDefs,
-        resolvers: AllResolvers
+        resolvers: AllResolvers,
+        formatError: (error) => {
+            return {
+                message: error.message,
+                //extensions is optional,means can or cannot use thats why we put ? in front of it
+                statusCode: error.extensions?.statusCode || 500,
+                path: error.path,
+                code: error.extensions?.code || 'INTERNAL_SERVER_ERROR',
+            };
+        }
     });
     await Server.start();
     app.use('/graphql', expressMiddleware(Server, { context: async ({ req, res }) => {

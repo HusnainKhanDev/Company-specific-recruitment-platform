@@ -42,9 +42,7 @@ export async function searchJob(field, value) {
             throw new Error("Field and value are required for search.");
         }
         const query = { [field]: value };
-        console.log("Search Query:", query);
         const result = await JobModel.find(query);
-        console.log("Search Result:", result);
         if (!result || result.length === 0) {
             throw new Error("No jobs found for the given search criteria.");
         }

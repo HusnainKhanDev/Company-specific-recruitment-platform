@@ -1,8 +1,11 @@
 import React from 'react'
+import { Banner } from "../Components/Banner"
 
 const LandingPage = () => {
   return (
-    <div>LandingPage</div>
+    <div>
+        <Banner/>
+    </div>
   )
 }
 

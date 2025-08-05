@@ -13,9 +13,21 @@ export const createNewUser = async (_, args, context) => {
             }
         });
     }
+    let extractHR = fullname.split(" ");
+    let OnlyName;
+    let role;
+    if (extractHR[0] === "HR") {
+        extractHR.shift();
+        OnlyName = extractHR.join(" ");
+        role = "Employeer";
+    }
+    else {
+        OnlyName = String(fullname);
+        role = "Candidate";
+    }
     const Bpassword = bcrypt.hashSync(password, 10);
     try {
-        const newUser = await InsertNewUser({ fullname, phone, email, Bpassword, googleId });
+        const newUser = await InsertNewUser({ OnlyName, phone, email, Bpassword, googleId, role });
         const Secret = String(process.env.JWT_SECRET);
         let token = jwt.sign({ ID: newUser?._id, role: newUser?.role }, Secret, { expiresIn: '1d' });
         if (newUser) {
@@ -163,7 +175,7 @@ export async function HandleGoogleCallback(req, res) {
         const isUserInDB = await FindUserByEmail(email);
         if (!isUserInDB) {
             let NewUser = {
-                fullname: name,
+                OnlyName: name,
                 email: email,
                 googleId: sub,
             };

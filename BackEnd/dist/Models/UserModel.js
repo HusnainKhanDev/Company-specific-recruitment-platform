@@ -21,8 +21,8 @@ const UserSchema = new mongoose.Schema({
     googleId: {
         type: String,
         unique: true,
-        default: null, // Allows multiple nulls in collection
-        sparse: true, // allows multiple nulls in collection with out it multiple nulls create duplicate error
+        sparse: true,
+        default: null,
     },
     role: {
         type: String,

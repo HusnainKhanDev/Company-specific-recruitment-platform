@@ -15,16 +15,16 @@ app.use(cookieParser());
 app.use(cors());
 //Auth Route------------------------------------------------
 GoogleAuthRoutes(app);
-//Servers---------------------------------------------------
-StartApolloServer(app);
-app.listen(port, () => {
-    console.log(`Server is Running On Port ${port}`);
-});
 // DataBase Connection--------------------------------------
 mongoose.connect(`mongodb://127.0.0.1/${DataBase}`)
-    .then(() => {
+    .then(async () => {
     console.log('DataBase is Connected Successfuly');
 })
     .catch(() => {
     console.log('Error While Connecting DB');
+});
+//Servers---------------------------------------------------
+StartApolloServer(app);
+app.listen(port, () => {
+    console.log(`Server is Running On Port ${port}`);
 });

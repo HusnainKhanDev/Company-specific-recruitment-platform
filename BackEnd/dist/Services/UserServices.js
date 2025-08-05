@@ -1,15 +1,19 @@
 import UserModel from "../Models/UserModel.js";
 export async function InsertNewUser(params) {
     const userInput = {
-        fullname: params.fullname,
+        fullname: params.OnlyName,
         email: params.email,
         password: params.Bpassword,
         phone: params.phone,
-        googleId: params.googleId ? params.googleId : undefined, // Optional field
+        googleId: params.googleId,
+        role: params.role
     };
-    console.log("User Input:", userInput);
-    if (!userInput.fullname || !userInput.email || !userInput.password) {
-        throw new Error("Fullname, email, and password are required to create a user.");
+    if (!userInput.fullname || !userInput.email) {
+        throw new Error("Fullname and email are required.");
+    }
+    if (!userInput.googleId && !userInput.password) {
+        // This means it's NOT Google signup, but password is missing
+        throw new Error("Password is required for local signup.");
     }
     try {
         let NewUser = await UserModel.create(userInput);

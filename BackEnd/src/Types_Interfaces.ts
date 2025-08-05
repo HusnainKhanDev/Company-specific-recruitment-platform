@@ -11,11 +11,12 @@ export interface UserArgs {
 
 //Using in UserServices.ts Parameters of InsertNewUser
 export interface ParamsIF {
-    fullname: string;
+    OnlyName: string;
     phone?: string;
     email: string;
     Bpassword?: string;
     googleId?: string;
+    role?: string
 }
 
 //using in SingInUser/UserController

@@ -1,13 +1,16 @@
 import { ApolloServer } from "@apollo/server";
 import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
 import { expressMiddleware } from "@as-integrations/express5";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { applyMiddleware } from "graphql-middleware";
 
-
-import { UsertypeDefs } from "./_Schemas/UserSchema.js";
+import { CheckAuthentication } from "../MiddleWare/isAuthenticated.js";
+import { UsertypeDefs } from "./TypeDefes/UserTypeDefs.js";
 import { UserResolvers } from "./Resolvers/UserResolver.js";
-import { JobsTypeDefs } from "./_Schemas/JobSchema.js";
+import { JobsTypeDefs } from "./TypeDefes/JobTypeDefs.js";
 import { JobsResolvers } from "./Resolvers/JobResolver.js";
-import { GraphQLError } from "graphql";
+
+
 
 
 export async function StartApolloServer(app: any){
@@ -15,9 +18,23 @@ export async function StartApolloServer(app: any){
     const AllTypeDefs = mergeTypeDefs([UsertypeDefs, JobsTypeDefs])
     const AllResolvers = mergeResolvers([UserResolvers, JobsResolvers])
 
-    const Server = new ApolloServer({
+    const BaseSchema = makeExecutableSchema({
         typeDefs: AllTypeDefs,
         resolvers: AllResolvers,
+    })
+
+    const SchemaWithMiddleware = applyMiddleware(BaseSchema, {
+        Mutation: {
+            
+        },
+        Query: {
+
+        }
+    })
+
+    const Server = new ApolloServer({
+        schema:SchemaWithMiddleware,
+        //optional to do just to format error
         formatError: (error) => {
             return {
                 message: error.message,
@@ -32,7 +49,8 @@ export async function StartApolloServer(app: any){
     await Server.start()
 
     app.use('/graphql', expressMiddleware(Server, {context: async ({req, res})=> {
-            return { req, res }
+          return CheckAuthentication(req, res)
+          
         }
     }))
 

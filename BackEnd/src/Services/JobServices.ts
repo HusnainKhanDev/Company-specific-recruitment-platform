@@ -48,6 +48,7 @@ export async function searchJob(field: string, value: string) {
         if (!field || !value) {
             throw new Error("Field and value are required for search.");
         }
+
         const query: any = { [field]: value }
         
         const result = await JobModel.find(query);  
@@ -59,7 +60,7 @@ export async function searchJob(field: string, value: string) {
         return result;
     }
     catch (err: any) {
-        console.error("Error searching job:", err);
+        // console.error("Error searching job:", err);
         throw new Error(err.message);
     }
 

@@ -49,7 +49,7 @@ export async function searchJob(field, value) {
         return result;
     }
     catch (err) {
-        console.error("Error searching job:", err);
+        // console.error("Error searching job:", err);
         throw new Error(err.message);
     }
 }

@@ -1,6 +1,22 @@
 import { GraphQLError } from "graphql";
 import { createJob, getAllJobs, searchJob } from "../Services/JobServices.js";
-export const ListNewJob = async (_, args) => {
+export const ListNewJob = async (_, args, context) => {
+    if (!context.User) {
+        throw new GraphQLError("Please login to continue.", {
+            extensions: {
+                code: "UNAUTHENTICATED_USER",
+                statusCode: 401,
+            },
+        });
+    }
+    if (context.User.Role !== "Employeer") {
+        throw new GraphQLError("Only Employers can create jobs.", {
+            extensions: {
+                code: "FORBIDDEN",
+                statusCode: 403,
+            },
+        });
+    }
     const { title, closingDate, workSetup, salary, description, requirements, jobType, createdBy } = args.input;
     if (!title || !closingDate || !workSetup || !description || !jobType || !createdBy || !requirements) {
         throw new GraphQLError("All fields are required.", {
@@ -57,7 +73,15 @@ export const FetchAllJobs = async () => {
         });
     }
 };
-export const SearchJobByField = async (_, args) => {
+export const SearchJobByField = async (_, args, context) => {
+    if (!context.User) {
+        throw new GraphQLError("Please login to continue.", {
+            extensions: {
+                code: "UNAUTHENTICATED_USER",
+                statusCode: 401,
+            },
+        });
+    }
     const { field, value } = args;
     if (!field || !value) {
         throw new GraphQLError("Field and value are required for search.", {
@@ -74,7 +98,7 @@ export const SearchJobByField = async (_, args) => {
         return Jobs;
     }
     catch (err) {
-        console.log("Error searching job:", err);
+        // console.log("Error searching job:", err);
         throw new GraphQLError(err.message, {
             extensions: {
                 code: 'INTERNAL_SERVER_ERROR',

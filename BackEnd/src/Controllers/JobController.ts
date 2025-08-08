@@ -16,6 +16,7 @@ export const ListNewJob: ConFn<JobArgs> = async (_: any, args: JobArgs, context:
     }
 
     if (context.User.Role !== "Employeer") {
+        console.log("Employeer")
         throw new GraphQLError("Only Employers can create jobs.", {
             extensions: {
             code: "FORBIDDEN",
@@ -26,6 +27,7 @@ export const ListNewJob: ConFn<JobArgs> = async (_: any, args: JobArgs, context:
 
 
     const { title, closingDate, workSetup, salary, description, requirements, jobType, createdBy } = args.input;
+   
 
     if (!title || !closingDate || !workSetup || !description || !jobType || !createdBy || !requirements) {
         throw new GraphQLError("All fields are required.", {
@@ -42,7 +44,7 @@ export const ListNewJob: ConFn<JobArgs> = async (_: any, args: JobArgs, context:
         workSetup,
         salary: salary || "Negotiable",
         description,
-        requirements: requirements,
+        requirements,
         jobType,
         createdBy,
     };

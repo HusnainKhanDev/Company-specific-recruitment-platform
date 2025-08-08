@@ -65,3 +65,15 @@ export async function UpdateUserGoogleID(email, googleId) {
         throw new Error("Error in updating user Google ID: " + err.message);
     }
 }
+export async function GetUserByID(ID) {
+    try {
+        const User = await UserModel.findById(ID);
+        if (!User) {
+            throw new Error("User Not found");
+        }
+        return User;
+    }
+    catch (err) {
+        throw new Error("Error in finding User" + err.message);
+    }
+}

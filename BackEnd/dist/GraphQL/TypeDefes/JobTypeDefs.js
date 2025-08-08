@@ -11,6 +11,7 @@ export const JobsTypeDefs = /* GraphQL */ `
         jobType: String!
         createdBy: User!
         createdAt: String!
+        countApplicants: Int
     }
     input JobInput {
         title: String!

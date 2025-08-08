@@ -1,6 +1,6 @@
 import { GraphQLError } from "graphql"
 import bcrypt from "bcrypt"
-import { FindUserByEmail, InsertNewUser, UpdateUserGoogleID } from "../Services/UserServices.js"
+import { FindUserByEmail, GetUserByID, InsertNewUser, UpdateUserGoogleID } from "../Services/UserServices.js"
 import { DBUser, UserArgs } from "../Types_Interfaces.js"
 import { ConFn } from "../Types_Interfaces.js"
 import { SignInUser } from "../Types_Interfaces.js"
@@ -11,7 +11,7 @@ import axios from "axios"
 
 export const createNewUser: ConFn<UserArgs> = async (_: any, args: UserArgs, context: any) => {
 
-    const { fullname, phone, email, password, googleId } = args.input
+    const { fullname, phone, email, password} = args.input
 
     if (!fullname || !email || !password) {
         throw new GraphQLError("Please provide all required fields.", {
@@ -38,7 +38,7 @@ export const createNewUser: ConFn<UserArgs> = async (_: any, args: UserArgs, con
     const Bpassword: string = bcrypt.hashSync(password, 10)
     try {
 
-        const newUser = await InsertNewUser({ OnlyName, phone, email, Bpassword, googleId, role })
+        const newUser = await InsertNewUser({ OnlyName, phone, email, Bpassword, role })
 
         const Secret = String(process.env.JWT_SECRET)
         let token: string = jwt.sign({ ID: newUser?._id, role: newUser?.role }, Secret, { expiresIn: '1d' })
@@ -224,6 +224,7 @@ export async function HandleGoogleCallback(req: Request, res: Response) {
                     secure: false,
                     sameSite: "lax"
                 });
+                console.log("Redirect ho gaya " + process.env.FRONTEND_URL)
                 return res.redirect(String(process.env.FRONTEND_URL))
             }
             else {
@@ -252,4 +253,32 @@ export async function HandleGoogleCallback(req: Request, res: Response) {
         console.log("Error in HandleGoogleCallback", err.message);
     }
 
+}
+
+export async function GetSpecificUser(_:any, args: any, context: any){
+        const UserID: string = context.User?.ID
+        console.log("ID from Specific USer", UserID)
+
+        try{
+            const user = await GetUserByID(UserID)
+            if(user){
+                return user
+            }
+
+            throw new GraphQLError("User Not Found", {
+                extensions: {
+                    code: 'USER_NOT_FOUND',
+                    statusCode: 404
+                }
+            })
+        }
+        catch(err: any){
+            console.log("Error in GetSpecificUser" + err.message)
+            throw new GraphQLError("Error While Finding User", {
+                extensions: {
+                    code: 'USER_NOT_FOUND',
+                    statusCode: 404
+                }
+            })
+        }
 }

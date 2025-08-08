@@ -1,7 +1,12 @@
-import { createNewUser, SingInUser } from "../../Controllers/UserController.js"
+import { Query } from "mongoose"
+import { createNewUser, GetSpecificUser, SingInUser } from "../../Controllers/UserController.js"
 
 
 export const UserResolvers = {
+  Query: {
+    GetUser: GetSpecificUser
+  },
+  
   Mutation: {
     CreateUser: createNewUser,
     LoginUser: SingInUser, 

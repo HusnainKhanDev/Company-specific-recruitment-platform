@@ -79,3 +79,16 @@ export async function UpdateUserGoogleID(email: string, googleId: string) {
     }
 }
 
+export async function GetUserByID(ID: string){
+    try{
+        const User = await UserModel.findById(ID)
+        if(!User){
+            throw new Error("User Not found")
+        }
+        return User
+        
+    }
+    catch(err: any){
+        throw new Error("Error in finding User" + err.message)
+    }
+}

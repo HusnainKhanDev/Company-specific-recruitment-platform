@@ -43,6 +43,10 @@ const JobSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  countApplicants: {
+    type: Number,
+    default: 0
+  }
 });
 
 export default mongoose.model("job", JobSchema);

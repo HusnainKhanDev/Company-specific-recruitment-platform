@@ -4,6 +4,10 @@ export async function createJob(params) {
     if (!title || !closingDate || !workSetup || !description || !jobType || !createdBy || !requirements) {
         throw new Error("All fields are required.");
     }
+    requirements.forEach((item, index) => {
+        requirements[index] = item.trim().toLowerCase();
+    });
+    console.log("Final requirment", requirements);
     const input = {
         title,
         closingDate,

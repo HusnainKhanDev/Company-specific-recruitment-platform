@@ -1,10 +1,10 @@
 import { GraphQLError } from "graphql";
 import bcrypt from "bcrypt";
-import { FindUserByEmail, InsertNewUser, UpdateUserGoogleID } from "../Services/UserServices.js";
+import { FindUserByEmail, GetUserByID, InsertNewUser, UpdateUserGoogleID } from "../Services/UserServices.js";
 import jwt from "jsonwebtoken";
 import axios from "axios";
 export const createNewUser = async (_, args, context) => {
-    const { fullname, phone, email, password, googleId } = args.input;
+    const { fullname, phone, email, password } = args.input;
     if (!fullname || !email || !password) {
         throw new GraphQLError("Please provide all required fields.", {
             extensions: {
@@ -27,7 +27,7 @@ export const createNewUser = async (_, args, context) => {
     }
     const Bpassword = bcrypt.hashSync(password, 10);
     try {
-        const newUser = await InsertNewUser({ OnlyName, phone, email, Bpassword, googleId, role });
+        const newUser = await InsertNewUser({ OnlyName, phone, email, Bpassword, role });
         const Secret = String(process.env.JWT_SECRET);
         let token = jwt.sign({ ID: newUser?._id, role: newUser?.role }, Secret, { expiresIn: '1d' });
         if (newUser) {
@@ -188,6 +188,7 @@ export async function HandleGoogleCallback(req, res) {
                     secure: false,
                     sameSite: "lax"
                 });
+                console.log("Redirect ho gaya " + process.env.FRONTEND_URL);
                 return res.redirect(String(process.env.FRONTEND_URL));
             }
             else {
@@ -213,5 +214,30 @@ export async function HandleGoogleCallback(req, res) {
     }
     catch (err) {
         console.log("Error in HandleGoogleCallback", err.message);
+    }
+}
+export async function GetSpecificUser(_, args, context) {
+    const UserID = context.User?.ID;
+    console.log("ID from Specific USer", UserID);
+    try {
+        const user = await GetUserByID(UserID);
+        if (user) {
+            return user;
+        }
+        throw new GraphQLError("User Not Found", {
+            extensions: {
+                code: 'USER_NOT_FOUND',
+                statusCode: 404
+            }
+        });
+    }
+    catch (err) {
+        console.log("Error in GetSpecificUser" + err.message);
+        throw new GraphQLError("Error While Finding User", {
+            extensions: {
+                code: 'USER_NOT_FOUND',
+                statusCode: 404
+            }
+        });
     }
 }

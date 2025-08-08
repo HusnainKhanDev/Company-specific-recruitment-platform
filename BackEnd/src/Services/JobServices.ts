@@ -8,6 +8,13 @@ export async function createJob(params: JobParamsIF) {
         throw new Error("All fields are required.");
     }
 
+    requirements.forEach((item: string, index: number) => {
+        requirements[index] = item.trim().toLowerCase();
+    });
+
+
+    console.log("Final requirment", requirements)
+
     const input = {
         title,
         closingDate,

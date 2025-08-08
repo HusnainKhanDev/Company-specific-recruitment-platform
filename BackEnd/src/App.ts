@@ -14,7 +14,10 @@ const app = express()
 //MiddleWares-----------------------------------------------
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors())
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}))
 
 //Auth Route------------------------------------------------
 GoogleAuthRoutes(app)
@@ -24,6 +27,7 @@ GoogleAuthRoutes(app)
 mongoose.connect(`mongodb://127.0.0.1/${DataBase}`)
 .then(async ()=>{
     console.log('DataBase is Connected Successfuly')
+    
 })
 .catch(()=>{
     console.log('Error While Connecting DB')

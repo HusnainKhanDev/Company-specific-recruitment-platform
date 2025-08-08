@@ -18,7 +18,7 @@ export const UsertypeDefs = /* GraphQL */ `
   }
 
   type Query {
-    hello: String
+    GetUser: User
   }
 
   type Mutation {

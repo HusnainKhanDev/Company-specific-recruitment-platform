@@ -13,7 +13,7 @@ const app = () => {
   const routes = createBrowserRouter([
     {
       path: "/",
-      element: <div><UserProtectedRoutes><LandingPage/></UserProtectedRoutes></div>
+      element: <div><LandingPage/></div>
     },
     {
       path: "/Auth",

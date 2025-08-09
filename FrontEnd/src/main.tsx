@@ -6,7 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import UsercontextProvider from "./Context/Usercontext"
 
 
-const Client = new ApolloClient({
+export const Client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
   credentials: "include"

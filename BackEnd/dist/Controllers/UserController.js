@@ -218,7 +218,6 @@ export async function HandleGoogleCallback(req, res) {
 }
 export async function GetSpecificUser(_, args, context) {
     const UserID = context.User?.ID;
-    console.log("ID from Specific USer", UserID);
     try {
         const user = await GetUserByID(UserID);
         if (user) {

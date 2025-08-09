@@ -56,7 +56,7 @@ export function Banner() {
             defaultValue=""
           >
             <option value="" disabled>
-              find as
+              Find By
             </option>
             <option value="workSetup">Work Setup</option>
             <option value="jobType">Job Type</option>

@@ -3,20 +3,18 @@ import { Banner } from "../Components/Banner"
 import { useQuery } from '@apollo/client'
 import { getUser } from '../GraphQL/Queries'
 import { UserDataContext } from '../Context/Usercontext'
+import Cards from '../Components/Cards'
 
 const LandingPage = () => {
 
-  const {User, setUser} = useContext(UserDataContext)
 
-  const { data, loading, error } = useQuery(getUser)
-  if(data){
-    localStorage.setItem("User", JSON.stringify(data.GetUser))
-    setUser(data.GetUser)
-  }
 
   return (
     <div>
         <Banner/>
+        <div className='p-3'>
+            <Cards/>
+        </div>
     </div>
   )
 }

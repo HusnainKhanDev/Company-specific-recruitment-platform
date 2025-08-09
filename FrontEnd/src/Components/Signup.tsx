@@ -1,17 +1,22 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import { CreateUserMut } from '../GraphQL/Mutation'
 import { UserDataContext } from '../Context/Usercontext';
 import { getUser } from '../GraphQL/Queries';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 
 
 
 const Signup = (prop: any) => {
 
-    const [createUser, { data, loading, error }] = useMutation(CreateUserMut);
+    const [createUser, { data, loading}] = useMutation(CreateUserMut);
     const {User, setUser} = useContext(UserDataContext)
+    const navigate = useNavigate()
+    const location = useLocation();
 
 
+    const [error, setError] = useState("")
     const [fullname, setFullname] = useState("")
     const [phone, setPhone] = useState("")
     const [email, setEmail] = useState("")
@@ -33,6 +38,12 @@ const Signup = (prop: any) => {
             if(response){
                 setUser(response.data.CreateUser)
                 localStorage.setItem("User", JSON.stringify(response.data.CreateUser))
+                if(User.role === "Employeer"){
+                    navigate("/Employeer/Dashboard")
+                }
+                else{
+                    navigate("/")
+                }
             }
         }
         catch(err){
@@ -45,6 +56,14 @@ const Signup = (prop: any) => {
         e.preventDefault()
         window.location.href = "http://localhost:4000/auth/google";
     }
+
+    useEffect(() => {
+        setError(location.state?.message)
+        setTimeout(()=>{
+            setError("")
+        }, 3000)
+    }, [location.state?.message])
+    
 
     return (
         <div>
@@ -62,11 +81,11 @@ const Signup = (prop: any) => {
                 </label>
 
                 <div className='flex gap-5'>
-                    <label className="input input-bordered w-full bg-[#3c364d] text-white flex items-center gap-2">
+                    <label className="input input-bordered w-[50%] bg-[#3c364d] text-white flex items-center gap-2">
                         Email
                         <input type="text" className="" placeholder="Alex@gmail.com" onChange={(e) => setEmail(e.target.value)}/>
                     </label>
-                    <label className="input input-bordered w-full bg-[#3c364d] text-white flex items-center gap-2">
+                    <label className="input input-bordered w-[45%] bg-[#3c364d] text-white flex items-center gap-2">
                         Phone
                         <input type="text" className="" placeholder="03XX-XXXXXXX" onChange={(e) => setPhone(e.target.value)}/>
                     </label>
@@ -85,8 +104,8 @@ const Signup = (prop: any) => {
 
         </div>
 
-            <div className='w-[75%] ml-[14%] h-[40px] flex justify-between items-center  text-white'>
-                <div className='h-[1px] w-[39%] bg-[#ffffff]'></div>
+            <div className='w-[75%] ml-[15%] h-[40px] flex justify-between items-center text-white'>
+                <div className='h-[1px] w-[37%] bg-[#ffffff]'></div>
                 <p className='text-sm'>Or Register With</p>
                 <div className='h-[1px]  w-[40%] bg-[#f4f4f4]'></div>
             </div>
@@ -97,6 +116,16 @@ const Signup = (prop: any) => {
                 <img src="google.png" alt="" className='h-5 w-5' />
                 <p className='text-white text-lg'>Google</p>
             </div>
+
+            {
+                error ? 
+                (<div className='w-full mt-3 flex items-center justify-center '>
+                <p className='ml-5 p-1 border-2 border-red-700 text-red-400'>⚠{error}</p>
+                </div>) :
+                null
+            }
+            
+
         </div>
     )
 }

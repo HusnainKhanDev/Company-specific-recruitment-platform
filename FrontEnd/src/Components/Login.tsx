@@ -2,12 +2,14 @@ import { useMutation } from '@apollo/client';
 import { SigninUserMut } from '../GraphQL/Mutation';
 import React, { useContext, useState } from 'react'
 import { UserDataContext } from '../Context/Usercontext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = (prop: any) => {
 
         const [email, setEmail] = useState("")
         const [password, setPassword] = useState("")
         const {User, setUser} = useContext(UserDataContext)
+        const navigate = useNavigate()
 
         const [LogedinUser, { data, loading, error }] = useMutation(SigninUserMut);
 
@@ -24,6 +26,12 @@ const Login = (prop: any) => {
                 if(response){
                     setUser(response.data.LoginUser)
                     localStorage.setItem("User", JSON.stringify(response.data.LoginUser))
+                    if(User.role === "Employeer"){
+                    navigate("/Employeer/Dashboard")
+                }
+                else{
+                    navigate("/")
+                }
                 }
             }
             catch(err: any){

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { SetStateAction, useEffect, useState } from 'react'
 import { Client } from '../main'
 import { GetJobs } from '../GraphQL/Queries'
 
-interface Job {
+export interface Job {
     _id: string;
     title: string;
     closingDate: string;
@@ -13,25 +13,33 @@ interface Job {
     jobType: string,
     createdBy: string;
     createdAt: string;
+    countApplicants: Number;
 }
 
 
-const Cards = () => {
+const Cards = ({ setPassData }: any) => {
     const [JobData, setJobData] = useState([])
-    const [PassData, setPassData] = useState({})
-
     const data = Client.readQuery({ query: GetJobs })
+
 
     useEffect(() => {
         setJobData(data?.GetAllJobs)
-    }, [data])    
+    }, [data])
 
-    console.log("Pass Data is Set", PassData)
 
-   if (!JobData) return <p>No jobs found</p>
+    if (!JobData) return <p>No jobs found</p>
 
-   return JobData.map((i: Job) => {
+    const recentJobs = JobData.filter((job: Job) => {
+        const jobDate = new Date(Number(job.createdAt));
+        const past24H = new Date(Date.now() - 86400000); // 24 hours ago
+        return jobDate.getTime() > past24H.getTime();
+    });
+
+    if (recentJobs.length === 0) return <p className='text-xl font-medium'>No New Jobs are Avialable!</p>;
+    return recentJobs.map((i: Job) => {
         const ProperDate = new Date(Number(i.createdAt));
+
+
         return (
             <div>
 
@@ -54,11 +62,11 @@ const Cards = () => {
                             <h3 className="text-md font-medium text-purple-700 bg-gray-200 px-3 py-1 rounded-full w-fit">
                                 {i.jobType}
                             </h3>
-                            <p className='text-lg font-normal'><i className="ri-user-6-line font-semibold"></i> 2</p>
+                            <p className='text-lg font-normal'><i className="ri-user-6-line font-semibold"></i> {String(i.countApplicants)}</p>
                         </div>
 
                         <p className="text-gray-600 text-lg w-[70%]">
-                            {i.description}                        
+                            {i.description}
                         </p>
 
                         <h2 className="text-lg font-semibold text-green-600">
@@ -67,14 +75,14 @@ const Cards = () => {
 
                         <div className="card-actions justify-between items-center pt-4 border-t border-gray-300">
                             <span className="text-lg justify-between items-baseline text-gray-500 bg-gray-200 px-3 py-1 rounded-full">
-                                Post Date:  
+                                Post Date:
                                 <span className='bg-blue-200 px-2 rounded-full ml-1'>{ProperDate.toLocaleDateString()}</span>
                             </span>
-                            <button 
-                            onClick={() => setPassData(i)}
-                            className="btn btn-primary rounded-full px-6 hover:text-white">
-                                Apply Now
-                            </button>
+                            <label htmlFor="my-drawer-4"
+                                onClick={() => setPassData(i)}
+                                className="drawer-button btn btn-primary rounded-full px-6 hover:text-white">
+                                Apply
+                            </label>
                         </div>
 
                     </div>
@@ -84,7 +92,7 @@ const Cards = () => {
 
             </div>
         )
-    }) 
+    })
 
 }
 

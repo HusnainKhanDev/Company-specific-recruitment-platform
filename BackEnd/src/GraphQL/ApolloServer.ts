@@ -9,14 +9,16 @@ import { UsertypeDefs } from "./TypeDefes/UserTypeDefs.js";
 import { UserResolvers } from "./Resolvers/UserResolver.js";
 import { JobsTypeDefs } from "./TypeDefes/JobTypeDefs.js";
 import { JobsResolvers } from "./Resolvers/JobResolver.js";
+import { ApplicationsTypeDefs } from "./TypeDefes/ApplicationTypeDefs.js";
+import { ApplicationResolvers } from "./Resolvers/ApplicationResolver.js";
 
 
 
 
 export async function StartApolloServer(app: any){
 
-    const AllTypeDefs = mergeTypeDefs([UsertypeDefs, JobsTypeDefs])
-    const AllResolvers = mergeResolvers([UserResolvers, JobsResolvers])
+    const AllTypeDefs = mergeTypeDefs([UsertypeDefs, JobsTypeDefs, ApplicationsTypeDefs])
+    const AllResolvers = mergeResolvers([UserResolvers, JobsResolvers, ApplicationResolvers])
 
     const BaseSchema = makeExecutableSchema({
         typeDefs: AllTypeDefs,

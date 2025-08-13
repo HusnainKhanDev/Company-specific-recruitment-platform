@@ -1,3 +1,8 @@
+//Using in Controllers/Controller Function type for Controllers
+export type ConFn<T> = (_:any, args:T, context:any) => Promise<any>;
+
+// User Interfaces ---------------------------------------------------------------------------------
+
 //Using in CreateNewUser.ts
 export interface UserArgs {
     input: {
@@ -10,7 +15,7 @@ export interface UserArgs {
 }
 
 //Using in UserServices.ts Parameters of InsertNewUser
-export interface ParamsIF {
+export interface UserParamsIF {
     OnlyName: string;
     phone?: string;
     email: string;
@@ -36,11 +41,8 @@ export interface DBUser {
     role: string;
 }
 
-//Using in Controllers/UserController Function type for Controllers
-export type ConFn<T> = (_:any, args:T, context:any) => Promise<any>;
 
-
-// Job Feature Interfaces & Types------------------------------------------------------------------------------
+// Job Feature Interfaces & Types------------------------------------------------------------------
 
 //using in createJob Service
 export interface JobParamsIF {
@@ -73,4 +75,41 @@ export interface JobArgs {
 export interface JobSearchArgs {
     field: string;
     value: string;
+}
+
+// Application Interfaces--------------------------------------------------------------------------
+
+//Using in Controllers/ApplicationController.ts
+export interface ApplicationArgs {
+    input: {
+        fullname: string
+        email: string
+        phone: string
+        jobId: string
+        candidateId: string
+        linkedInProfile: string
+        resume: string
+        skills: [string]
+        companyName: string
+        position: string
+        startDate: Date
+        endDate: Date
+    }
+}   
+
+export interface ApplicationParamIF {
+    fullname: string,
+    email: string,
+    phone: string,
+    jobId: string,
+    candidateId: string,
+    linkedInProfile: string 
+    resume: string
+    skills: [string],
+    pastJob: {
+        companyName: string,
+        position: string,
+        startDate: Date
+        endDate: Date
+    }
 }

@@ -1,8 +1,8 @@
 import UserModel from "../Models/UserModel.js";
-import { ParamsIF } from "../Types_Interfaces.js";
+import { UserParamsIF } from "../Types_Interfaces.js";
 
 
-export async function InsertNewUser(params: ParamsIF) {
+export async function InsertNewUser(params: UserParamsIF) {
     const userInput = {
         fullname: params.OnlyName,
         email: params.email,

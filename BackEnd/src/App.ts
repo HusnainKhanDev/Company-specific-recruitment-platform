@@ -4,7 +4,8 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import mongoose, { Connection } from 'mongoose'
-import { GoogleAuthRoutes } from './AuthRoutes.js'
+import { GoogleAuthRoutes } from './Routes/AuthRoutes.js'
+import { CreateNewApplication } from './Routes/ApplicationRoute.js';
 dotenv.config();
 
 const port = process.env.PORT
@@ -14,6 +15,8 @@ const app = express()
 //MiddleWares-----------------------------------------------
 app.use(express.json())
 app.use(cookieParser())
+app.use(express.urlencoded({ extended: true }))
+app.use('/Uploads', express.static('Uploads'));
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
@@ -21,6 +24,7 @@ app.use(cors({
 
 //Auth Route------------------------------------------------
 GoogleAuthRoutes(app)
+CreateNewApplication(app)
 
 
 // DataBase Connection--------------------------------------

@@ -57,3 +57,19 @@ export async function searchJob(field, value) {
         throw new Error(err.message);
     }
 }
+export async function GetJobById(ID) {
+    try {
+        if (!ID) {
+            throw new Error("ID required for search.");
+        }
+        const result = await JobModel.findById(ID);
+        if (!result) {
+            throw new Error("No job found for the given ID.");
+        }
+        return result;
+    }
+    catch (err) {
+        console.error("Error In Finding Specific job:", err);
+        throw new Error(err.message);
+    }
+}

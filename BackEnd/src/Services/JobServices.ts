@@ -72,3 +72,25 @@ export async function searchJob(field: string, value: string) {
     }
 
 }
+
+
+export async function GetJobById(ID: string) {
+    try{
+        if (!ID) {
+            throw new Error("ID required for search.");
+        }
+        
+        const result = await JobModel.findById(ID);  
+
+        if (!result) {
+            throw new Error("No job found for the given ID.");
+        }
+
+        return result;
+    }
+    catch (err: any) {
+        console.error("Error In Finding Specific job:", err);
+        throw new Error(err.message);
+    }
+
+}

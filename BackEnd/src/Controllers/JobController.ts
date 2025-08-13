@@ -75,6 +75,7 @@ export const ListNewJob: ConFn<JobArgs> = async (_: any, args: JobArgs, context:
 
 export const FetchAllJobs: ConFn<null> = async () => {
     try {
+        console.log("Request has been Done By react App")
         const jobs = await getAllJobs(); 
         return jobs;
     } catch (err: any) {

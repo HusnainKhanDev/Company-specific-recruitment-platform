@@ -61,6 +61,7 @@ export const ListNewJob = async (_, args, context) => {
 };
 export const FetchAllJobs = async () => {
     try {
+        console.log("Request has been Done By react App");
         const jobs = await getAllJobs();
         return jobs;
     }

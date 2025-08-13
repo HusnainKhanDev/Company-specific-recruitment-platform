@@ -6,6 +6,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import UserProtectedRoutes from './Components/UserProtectedRoutes'
 import EmpLandingPage from './Pages/EmpLandingPage'
 import EmployeerProtector from './Components/EmployeerProtector'
+import AllJobs from './Pages/AllJobs'
+import ApplyForm from './Pages/ApplyForm'
+import UserApplications from './Pages/UserApplications'
 
 
 const app = () => {
@@ -16,16 +19,28 @@ const app = () => {
       element: <div><LandingPage/></div>
     },
     {
-      path: "/Auth",
+      path: "/auth",
       element: <div><AuthPage/></div>
     },
     {
-      path: "/Employeer/Dashboard",
+      path: "/employeer/Dashboard",
       element: <div><EmployeerProtector><EmpLandingPage/></EmployeerProtector></div>
     },
     {
       path: "/create/job",
       element: <div> <EmployeerProtector><CreateJobForm/></EmployeerProtector></div>
+    },
+    {
+      path: "/all/job",
+      element: <div> <AllJobs/></div>
+    },
+    {
+      path: "/apply/job/form",
+      element: <div> <ApplyForm/></div>
+    },
+    {
+      path: "/user/appliations",
+      element: <div> <UserApplications/></div>
     }
 
   ])

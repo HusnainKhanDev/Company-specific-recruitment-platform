@@ -1,6 +1,5 @@
-import React, { SetStateAction, useEffect, useState } from 'react'
-import { Client } from '../main'
-import { GetJobs } from '../GraphQL/Queries'
+
+
 
 export interface Job {
     _id: string;
@@ -17,28 +16,14 @@ export interface Job {
 }
 
 
-const Cards = ({ setPassData }: any) => {
-    const [JobData, setJobData] = useState([])
-    const data = Client.readQuery({ query: GetJobs })
+const Cards = (prop: any) => {
+    console.log("prop.Jobs ", prop.Jobs)
+    if(!prop.Jobs) return <p className='text-xl font-medium'>No jobs found</p>
 
+    if (prop.Jobs.length === 0) return <p className='text-xl font-medium'>No New Jobs are Avialable!</p>;
 
-    useEffect(() => {
-        setJobData(data?.GetAllJobs)
-    }, [data])
-
-
-    if (!JobData) return <p>No jobs found</p>
-
-    const recentJobs = JobData.filter((job: Job) => {
-        const jobDate = new Date(Number(job.createdAt));
-        const past24H = new Date(Date.now() - 86400000); // 24 hours ago
-        return jobDate.getTime() > past24H.getTime();
-    });
-
-    if (recentJobs.length === 0) return <p className='text-xl font-medium'>No New Jobs are Avialable!</p>;
-    return recentJobs.map((i: Job) => {
+    return prop.Jobs.map((i: Job) => {
         const ProperDate = new Date(Number(i.createdAt));
-
 
         return (
             <div>
@@ -79,7 +64,7 @@ const Cards = ({ setPassData }: any) => {
                                 <span className='bg-blue-200 px-2 rounded-full ml-1'>{ProperDate.toLocaleDateString()}</span>
                             </span>
                             <label htmlFor="my-drawer-4"
-                                onClick={() => setPassData(i)}
+                                onClick={() => prop.setPassDataToPannel(i)}
                                 className="drawer-button btn btn-primary rounded-full px-6 hover:text-white">
                                 Apply
                             </label>

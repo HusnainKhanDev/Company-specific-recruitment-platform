@@ -1,4 +1,4 @@
-import { HandleGoogleCallback, RedirectGoogleLoginPage } from "./Controllers/UserController.js";
+import { HandleGoogleCallback, RedirectGoogleLoginPage } from "../Controllers/UserController.js";
 
 export function GoogleAuthRoutes(app: any){
 

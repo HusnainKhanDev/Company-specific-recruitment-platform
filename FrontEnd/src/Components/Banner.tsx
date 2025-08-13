@@ -1,4 +1,6 @@
 import { CardSpotlight } from "../Aceternity_Utils/CardSpotLight";
+import { Link } from "react-router-dom";
+import NavBar from "./NavBar";
 
 export function Banner() {
   return (
@@ -11,15 +13,9 @@ export function Banner() {
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
       {/* Navbar */}
-      <nav className="absolute top-0 left-0 w-full flex justify-between items-center px-8 py-4 bg-transparent z-20 ">
-        <h2 className="text-xl font-bold">JobFinder</h2>
-        <ul className="flex space-x-6 text-sm text-gray-200">
-          <li className="hover:font-semibold text-white cursor-pointer">Home</li>
-          <li className="hover:font-semibold text-white cursor-pointer">Jobs</li>
-          <li className="hover:font-semibold text-white cursor-pointer">About</li>
-          <li className="hover:font-semibold text-white cursor-pointer">Contact</li>
-        </ul>
-      </nav>
+        <div className='text-white absolute top-0 left-0 w-full'>
+            <NavBar/>
+        </div>
 
       {/* Content */}
       <div className="relative z-10 flex flex-col justify-center h-full px-8 space-y-6 items-start max-w-2xl">

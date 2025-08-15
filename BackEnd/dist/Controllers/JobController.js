@@ -85,6 +85,7 @@ export const SearchJobByField = async (_, args, context) => {
         });
     }
     const { field, value } = args;
+    console.log(field, value);
     if (!field || !value) {
         throw new GraphQLError("Field and value are required for search.", {
             extensions: {

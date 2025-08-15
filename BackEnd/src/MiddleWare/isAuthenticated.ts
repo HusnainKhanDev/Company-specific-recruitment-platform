@@ -10,7 +10,6 @@ export function CheckAuthentication(req:any, res:any){
 
     const decoded: any = Jwt.verify(token, String(process.env.JWT_SECRET))
     
-    
     if(!decoded) {
         return {req, res}
     }

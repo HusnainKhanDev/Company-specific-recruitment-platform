@@ -32,3 +32,42 @@ export const GetJobs = gql`
   }
 }
 `
+export const GetUserSpecificApplication = gql`
+  query GetUserSpecificApplication {
+  GetUserSpecificApplication {
+    candidateDescription
+    email
+    fullname
+    jobId {
+      title
+    }
+    linkedInProfile
+    pastJob {
+      companyName
+      endDate
+      position
+      startDate
+    }
+    phone
+    resume
+    skills
+  }
+}
+`
+
+export const SearchField = gql`
+    query SearchJobByField($field: String!, $value: String!) {
+      SearchJobByField(field: $field, value: $value) {
+        workSetup
+        title
+        salary
+        requirements
+        jobType
+        description
+        createdAt
+        countApplicants
+        closingDate
+        _id
+      }
+    }
+`

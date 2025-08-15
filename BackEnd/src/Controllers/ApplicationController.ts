@@ -6,10 +6,10 @@ import { GraphQLError } from "graphql";
 
 export const submitApplication = async (req: Request, res: Response) => {
     
-    const {User} = CheckAuthentication(req, res)
-    if(!User?.ID) {
-        return res.status(400).json({msg: "UnAuthenticated User"})
-    }
+    // const {User} = CheckAuthentication(req, res)
+    // if(!User?.ID || User?.Role != "Candidate") {
+    //     return res.status(400).json({msg: "UnAuthenticated User"})
+    // }
     
     const {
         fullname,
@@ -37,6 +37,11 @@ export const submitApplication = async (req: Request, res: Response) => {
         });
     }
 
+    let data2 = skills.split(",")
+    let data3 = data2.map((i: String) => {
+        return i.trim()
+    })
+
     const newApplication = {
         fullname,
         email,
@@ -46,7 +51,7 @@ export const submitApplication = async (req: Request, res: Response) => {
         candidateDescription: candidateDescription || "" ,
         linkedInProfile: linkedInProfile || "",
         resume: resume || "",
-        skills: skills || [],
+        skills: data3 || [],
         pastJob: {
             companyName: companyName || "",
             position: position || "",

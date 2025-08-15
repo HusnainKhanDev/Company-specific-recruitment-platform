@@ -1,11 +1,10 @@
 import { createApplication, FetchAllApplications, FindAppByUserID } from "../Services/ApplicationServices.js";
-import { CheckAuthentication } from "../MiddleWare/isAuthenticated.js";
 import { GraphQLError } from "graphql";
 export const submitApplication = async (req, res) => {
-    const { User } = CheckAuthentication(req, res);
-    if (!User?.ID) {
-        return res.status(400).json({ msg: "UnAuthenticated User" });
-    }
+    // const {User} = CheckAuthentication(req, res)
+    // if(!User?.ID || User?.Role != "Candidate") {
+    //     return res.status(400).json({msg: "UnAuthenticated User"})
+    // }
     const { fullname, email, phone, jobId, candidateId, candidateDescription, linkedInProfile, skills, companyName, position, startDate, endDate } = req.body;
     const resume = req.file?.filename;
     console.log(resume);
@@ -15,6 +14,10 @@ export const submitApplication = async (req, res) => {
             error: "Fullname, email, phone, jobId, candidateId, resume, and skills are required."
         });
     }
+    let data2 = skills.split(",");
+    let data3 = data2.map((i) => {
+        return i.trim();
+    });
     const newApplication = {
         fullname,
         email,
@@ -24,7 +27,7 @@ export const submitApplication = async (req, res) => {
         candidateDescription: candidateDescription || "",
         linkedInProfile: linkedInProfile || "",
         resume: resume || "",
-        skills: skills || [],
+        skills: data3 || [],
         pastJob: {
             companyName: companyName || "",
             position: position || "",

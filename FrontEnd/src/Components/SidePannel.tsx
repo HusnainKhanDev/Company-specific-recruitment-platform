@@ -1,5 +1,6 @@
 import React from 'react';
 import { Job } from './Cards';
+import { useNavigate } from 'react-router-dom';
 
 interface PassPannelDataIF {
   PassPannelData?: Job;
@@ -7,7 +8,11 @@ interface PassPannelDataIF {
 
 const SidePannel = ({ PassPannelData }: PassPannelDataIF) => {
   console.log("Data from Side pannel: ", PassPannelData);
- 
+  const navigate = useNavigate()
+  
+  function HandleApply(id: string){
+      navigate("/apply/job/form", {state: {ID: id}})
+  }
 
   if (!PassPannelData) return null; 
   const createdate = new Date(Number(PassPannelData?.createdAt))
@@ -61,7 +66,9 @@ const SidePannel = ({ PassPannelData }: PassPannelDataIF) => {
 
           {/* Apply Button */}
           <div>
-            <button className="btn btn-primary w-full text-lg text-white shadow-lg hover:shadow-black hover:shadow-lg">
+            <button
+              onClick={() => HandleApply(PassPannelData._id)}
+              className="btn btn-primary w-full text-lg text-white shadow-lg hover:shadow-black hover:shadow-lg">
               Apply Now
             </button>
           </div>

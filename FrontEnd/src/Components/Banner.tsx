@@ -1,8 +1,27 @@
 import { CardSpotlight } from "../Aceternity_Utils/CardSpotLight";
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
+import { useLazyQuery } from "@apollo/client";
+import { SearchField } from "../GraphQL/Queries";
+import { useState } from "react";
 
-export function Banner() {
+export function Banner(prop: any) {
+  const [searchJobs, { data, loading, error }] = useLazyQuery(SearchField);
+  const [field, setField] = useState("")
+  const [value, setvalue] = useState("")
+
+  function handleSearch() {
+      searchJobs({
+        variables: {
+          field: field,
+          value: value
+        }
+      })
+      console.log(data.SearchJobByField)
+      prop.setSearchData(data.SearchJobByField)
+      prop.setisSearch(true)
+  }
+
   return (
     <CardSpotlight
       color="#601a73"
@@ -31,12 +50,13 @@ export function Banner() {
         </div>
 
         {/* Search Bar */}
-        <div className="flex items-center bg-white rounded-full overflow-hidden shadow-lg w-full max-w-lg">
+        <div className="flex items-center relative bg-white rounded-full overflow-hidden shadow-lg w-full max-w-lg">
           
           {/* Search Icon + Input */}
           <div className="flex items-center px-4">
             <i className="ri-search-line text-gray-500 text-lg"></i>
             <input
+              onChange={(e) => setvalue(e.target.value)}
               type="text"
               placeholder="Job title or keyword"
               className="p-3 w-48 text-black outline-none"
@@ -48,6 +68,7 @@ export function Banner() {
 
           {/* Country Dropdown */}
           <select
+            onChange={(e) => setField(e.target.value)}
             className="px-4 py-3 text-black outline-none cursor-pointer"
             defaultValue=""
           >
@@ -60,9 +81,19 @@ export function Banner() {
           </select>
 
           {/* Button */}
-          <button className="bg-blue-700 px-5 py-3 ml-2 flex items-center justify-center text-white hover:bg-gray-800 transition">
+          <button 
+            onClick={handleSearch}
+            className="bg-blue-700 px-5 py-3 ml-2 flex items-center justify-center text-white hover:bg-gray-800 transition">
             <i className="ri-arrow-right-line text-lg"></i>
           </button>
+
+          { prop.isSearch ?
+          <p 
+            onClick={() => prop.setisSearch(false)}
+            className="absolute text-black text-2xl left-[465px] cursor-pointer">
+            <i className="ri-close-circle-line"></i>
+          </p> : null
+          }
         </div>
 
       </div>

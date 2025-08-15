@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Banner } from "../Components/Banner"
 import { useQuery } from '@apollo/client'
-import { getUser } from '../GraphQL/Queries'
-import { UserDataContext } from '../Context/Usercontext'
 import Cards from '../Components/Cards'
 import { GetJobs } from '../GraphQL/Queries'
 import SidePannel from '../Components/SidePannel'
@@ -14,38 +12,47 @@ const LandingPage = () => {
 
   const { data, loading, error } = useQuery(GetJobs)
 
-  const [PassPannelData, setPassDataToPannel] = useState<Job | undefined>(undefined);
   const [JobData, setJobData] = useState([])
-  
+  const [isSearch, setisSearch] = useState(false)
+  const [SearchData, setSearchData] = useState([])
+  const [PassPannelData, setPassDataToPannel] = useState<Job | undefined>(undefined);
+
+
   useEffect(() => {
-      setJobData(data?.GetAllJobs)
+    setJobData(data?.GetAllJobs)
   }, [data])
-  
-  let recentJobs;
-  if(JobData) {
-  recentJobs = JobData.filter((job: Job) => {
-      const jobDate = new Date(Number(job.createdAt));
-      const past24H = new Date(Date.now() - 86400000); // 24 hours ago
-      return jobDate.getTime() > past24H.getTime();
-  });
-}
+
+
+  let Jobs;
+  if (!isSearch) {
+    if (JobData) {
+      //Just Resent Jobs with in 24H
+      Jobs = JobData.filter((job: Job) => {
+        const jobDate = new Date(Number(job.createdAt));
+        const past24H = new Date(Date.now() - 86400000); // 24 hours ago
+        return jobDate.getTime() > past24H.getTime();
+      });
+    }
+  }
+  else {
+    Jobs = SearchData
+  }
 
   return (
     <div>
 
       <div className=''>
-        <Banner/>
+        <Banner setisSearch={setisSearch} isSearch={isSearch} setSearchData={setSearchData} />
       </div>
 
-        <div className='p-3'>
-            <h3 className='p-2 text-lg text-gray-400 font-medium'> New Post With in 24H </h3>
+      <div className='p-3'>
+        <h3 className='p-2 text-lg text-gray-400 font-medium'> New Post With in 24H </h3>
+        <Cards setPassDataToPannel={setPassDataToPannel} Jobs={Jobs} />
+      </div>
 
-            <Cards setPassDataToPannel={setPassDataToPannel} Jobs={JobData}/>
-        </div>
-
-        <div>
-          <SidePannel PassPannelData={PassPannelData} />
-        </div>
+      <div>
+        <SidePannel PassPannelData={PassPannelData} />
+      </div>
 
     </div>
   )

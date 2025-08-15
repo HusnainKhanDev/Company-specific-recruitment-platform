@@ -1,9 +1,7 @@
 import ApplicationModel from "../Models/ApplicationModel.js";
 export async function createApplication(Params) {
     try {
-        console.log(Params);
         let result = await ApplicationModel.create(Params);
-        console.log("result", result);
         if (result) {
             return result;
         }

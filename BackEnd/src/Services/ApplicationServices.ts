@@ -3,9 +3,7 @@ import { ApplicationParamIF } from "../Types_Interfaces.js";
 
 export async function createApplication(Params: ApplicationParamIF) {
     try{
-        console.log(Params)
         let result = await ApplicationModel.create(Params)
-        console.log("result", result)
         if(result){
             return result
         }

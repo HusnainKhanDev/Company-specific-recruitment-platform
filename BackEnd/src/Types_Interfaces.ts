@@ -57,6 +57,7 @@ export interface JobParamsIF {
 }
 
 
+
 //Using in Controllers/JobController.ts
 export interface JobArgs {
     input: {
@@ -70,6 +71,7 @@ export interface JobArgs {
         createdBy: string
     }
 }
+
 
 // JOb Search controller parameters
 export interface JobSearchArgs {

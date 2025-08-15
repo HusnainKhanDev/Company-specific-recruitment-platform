@@ -94,3 +94,53 @@ export async function GetJobById(ID: string) {
     }
 
 }
+
+export async function UpdateJob(params: JobParamsIF & { _id: string }) {
+    const {
+        title,
+        closingDate,
+        workSetup,
+        salary,
+        description,
+        requirements,
+        jobType,
+        createdBy,
+        _id
+    } = params;
+
+    // Validation
+    if (!title || !closingDate || !workSetup || !description || !jobType || !createdBy || !requirements) {
+        throw new Error("All fields are required.");
+    }
+
+    // Normalize requirements
+    const normalizedRequirements = requirements.map(item => item.trim().toLowerCase());
+
+    const input = {
+        title,
+        closingDate,
+        workSetup,
+        salary: salary || "Negotiable",
+        description,
+        requirements: normalizedRequirements.length > 0 ? normalizedRequirements : [],
+        jobType,
+        createdBy
+    };
+
+    try {
+        const updatedJob = await JobModel.findByIdAndUpdate(_id, input, {
+            new: true,       // Return the updated document
+            runValidators: true // Ensure schema validation runs
+        });
+
+        if (!updatedJob) {
+            throw new Error("Job not found or update failed.");
+        }
+
+        return updatedJob;
+    } catch (err: any) {
+        console.error("Error updating job:", err);
+        throw new Error(err.message || "Internal server error.");
+    }
+}
+

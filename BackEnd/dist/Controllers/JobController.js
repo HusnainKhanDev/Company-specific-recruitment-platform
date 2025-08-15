@@ -33,7 +33,7 @@ export const ListNewJob = async (_, args, context) => {
         workSetup,
         salary: salary || "Negotiable",
         description,
-        requirements,
+        requirements: requirements.split(","),
         jobType,
         createdBy,
     };

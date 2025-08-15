@@ -11,6 +11,7 @@ import ApplyForm from './Pages/ApplyForm'
 import UserApplications from './Pages/UserApplications'
 import Emp_SeeAllJobs from './Pages/Emp_SeeAllJobs'
 import Emp_AllApplications from './Pages/Emp_AllApplications'
+import Emp_EditJob from './Pages/Emp_EditJob'
 
 
 const app = () => {
@@ -49,6 +50,10 @@ const app = () => {
     {
       path: "/all/listed/jobs",
       element: <div><Emp_SeeAllJobs/></div>
+    },
+    {
+      path: "/edit/job",
+      element: <div><Emp_EditJob/></div>
     },
     {
       path: "/all/applications",

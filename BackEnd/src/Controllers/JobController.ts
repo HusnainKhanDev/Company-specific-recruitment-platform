@@ -44,7 +44,7 @@ export const ListNewJob: ConFn<JobArgs> = async (_: any, args: JobArgs, context:
         workSetup,
         salary: salary || "Negotiable",
         description,
-        requirements,
+        requirements: requirements.split(","),
         jobType,
         createdBy,
     };

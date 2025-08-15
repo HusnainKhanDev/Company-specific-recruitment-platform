@@ -71,3 +71,30 @@ export const SearchField = gql`
       }
     }
 `
+
+export const GetAllApplications = gql `
+  query GetApplications {
+  GetApplications {
+    _id
+    candidateId {
+      _id
+    }
+    fullname
+    email
+    phone
+    resume
+    linkedInProfile
+    jobId {
+      title
+    }
+    skills
+    pastJob {
+      startDate
+      position
+      endDate
+      companyName
+    }
+    candidateDescription
+  }
+}
+`

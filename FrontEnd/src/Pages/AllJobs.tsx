@@ -33,7 +33,7 @@ const AllJobs = () => {
 
   return (
     <div>
-      <div className="text-black absolute top-5 left-52 w-[70%] border border-black rounded-full shadow-black shadow-[inset_0_2px_6px_rgba(0,0,0,0.6)]">
+      <div className="text-black fixed top-5 left-52 w-[70%] border border-black rounded-full shadow-black shadow-[inset_0_2px_6px_rgba(0,0,0,0.6)]">
         <NavBar />
       </div>
 

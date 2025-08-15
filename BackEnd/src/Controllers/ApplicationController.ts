@@ -6,10 +6,10 @@ import { GraphQLError } from "graphql";
 
 export const submitApplication = async (req: Request, res: Response) => {
     
-    // const {User} = CheckAuthentication(req, res)
-    // if(!User?.ID || User?.Role != "Candidate") {
-    //     return res.status(400).json({msg: "UnAuthenticated User"})
-    // }
+    const {User} = CheckAuthentication(req, res)
+    if(!User?.ID || User?.Role != "Candidate") {
+        return res.status(400).json({msg: "UnAuthenticated User"})
+    }
     
     const {
         fullname,

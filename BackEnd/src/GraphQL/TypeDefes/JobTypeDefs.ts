@@ -19,7 +19,7 @@ export const JobsTypeDefs = /* GraphQL */ `
         workSetup: String!
         salary: String
         description: String!
-        requirements: [String]
+        requirements: String
         jobType: String!
         createdBy: ID!
     }

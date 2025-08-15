@@ -10,7 +10,7 @@ import { Job } from '../Components/Cards'
 
 const LandingPage = () => {
 
-  const { data, loading, error } = useQuery(GetJobs)
+  
 
   const [JobData, setJobData] = useState([])
   const [isSearch, setisSearch] = useState(false)
@@ -59,4 +59,3 @@ const LandingPage = () => {
 }
 
 export default LandingPage
-// className="fixed top-[8%] right-3 h-[88%] w-[28%] shadow-lg z-50 bg-white"

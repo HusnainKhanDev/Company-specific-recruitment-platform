@@ -51,7 +51,7 @@ export interface JobParamsIF {
     workSetup: string;
     salary: string;
     description: string;
-    requirements: [string],
+    requirements: string[],
     jobType: string,
     createdBy: string;
 }
@@ -65,7 +65,7 @@ export interface JobArgs {
         workSetup: string
         salary: string
         description: string
-        requirements: [string]
+        requirements: string
         jobType: string
         createdBy: string
     }

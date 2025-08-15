@@ -14,8 +14,9 @@ const UserApplications = () => {
   }, [data])
 
   if (loading) return <p className='mt-20 p-4'>Loading...</p>
+  
   if (error) {
-    return(
+    return (
       <>
         <div className='text-black bg-blue-300 shadow-md fixed top-0 left-0 w-full z-50'>
           <NavBar />

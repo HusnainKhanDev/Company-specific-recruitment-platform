@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { UserDataContext } from '../Context/Usercontext';
 import { CreateJobMut } from '../GraphQL/Mutation';
 import { useMutation } from '@apollo/client';
+import { Link } from 'react-router-dom';
 
 const CreateJobForm = () => {
 
@@ -21,7 +22,6 @@ const CreateJobForm = () => {
     async function CreateJobFromHandler(e: any){
         e.preventDefault()
         setcreatedBy(User._id)
-        const reqArray: String[] = requirements.split(",")
       
       try{
         let response = await CreateJob({
@@ -34,8 +34,7 @@ const CreateJobForm = () => {
                 createdBy,
                 closingDate,
                 description,
-                requirements: reqArray,
-
+                requirements,
             }
           }
         })
@@ -46,11 +45,6 @@ const CreateJobForm = () => {
       catch(err){
           console.log(err)
       }
-
-
-
-
-
     }
 
 
@@ -62,12 +56,16 @@ const CreateJobForm = () => {
  
     return (
     <div
-      className="w-full h-screen bg-[url('/bg-office.png')] bg-conver bg-center overflow-hidden bg-no-repeat  px-6 py-10"
+    className="w-full h-screen bg-[url('/bg-office.png')] bg-conver bg-center overflow-hidden bg-no-repeat  px-6 py-10"
     >
      
-     <div className="w-full max-w-xl bg-white/50 backdrop-blur-md border border-white/40 rounded-2xl shadow-2xl p-8 text-gray-800 overflow-y-auto max-h-[90vh]">
-        <p className='-mt-4 mb-4 text-xl text-black'><i className="ri-arrow-go-back-line"></i> back</p>
-        <h1 className="text-2xl font-bold mb-4 text-gray-800">Create Job Posting</h1>
+     <div className="w-full max-w-xl bg-white/50 backdrop-blur-md border border-white/40 rounded-2xl shadow-2xl p-5 text-gray-800 overflow-y-auto max-h-[90vh]">
+        <Link
+          to={"/employeer/Dashboard"}
+          className='mb-4 text-xl flex gap-2 text-black'><i className="ri-arrow-go-back-line"></i> 
+          <p>Back</p>
+        </Link>
+        <h1 className="text-2xl font-bold mb-4 mt-4 text-gray-800">Create Job Posting</h1>
 
         <form className="space-y-5" onSubmit={(e) => CreateJobFromHandler(e)}>
           <div>

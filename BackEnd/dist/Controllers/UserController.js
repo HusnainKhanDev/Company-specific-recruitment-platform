@@ -92,7 +92,7 @@ export const SingInUser = async (_, args, context) => {
             }
         }
         else {
-            throw new GraphQLError("User Does Not Exist.", {
+            throw new GraphQLError("User Does Not Exist Please SignUp.", {
                 extensions: {
                     code: 'USER_NOT_FOUND',
                     statusCode: 404
@@ -231,7 +231,7 @@ export async function GetSpecificUser(_, args, context) {
         });
     }
     catch (err) {
-        console.log("Error in GetSpecificUser" + err.message);
+        // console.log("Error in GetSpecificUser " + err.message)
         throw new GraphQLError("Error While Finding User", {
             extensions: {
                 code: 'USER_NOT_FOUND',

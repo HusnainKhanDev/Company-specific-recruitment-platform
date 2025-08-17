@@ -18,9 +18,8 @@ const UsercontextProvider = ({children}: any) => {
 
     useEffect(() => {
         const data = localStorage.getItem("User")
-
         if(data){
-            setUser(JSON.parse(data))
+          setUser(JSON.parse(data))
         }
     }, [])
 

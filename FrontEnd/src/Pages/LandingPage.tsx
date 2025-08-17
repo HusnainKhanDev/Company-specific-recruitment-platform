@@ -5,13 +5,14 @@ import Cards from '../Components/Cards'
 import { GetJobs } from '../GraphQL/Queries'
 import SidePannel from '../Components/SidePannel'
 import { Job } from '../Components/Cards'
+import { Bounce, ToastContainer, toast } from 'react-toastify'
 
 
 
 const LandingPage = () => {
 
+  const { data, loading, error } = useQuery(GetJobs)
   
-
   const [JobData, setJobData] = useState([])
   const [isSearch, setisSearch] = useState(false)
   const [SearchData, setSearchData] = useState([])
@@ -42,17 +43,31 @@ const LandingPage = () => {
     <div>
 
       <div className=''>
-        <Banner setisSearch={setisSearch} isSearch={isSearch} setSearchData={setSearchData} />
+        <Banner setisSearch={setisSearch} isSearch={isSearch} setSearchData={setSearchData} toast={toast} />
       </div>
 
       <div className='p-3'>
-        <h3 className='p-2 text-lg text-gray-400 font-medium'> New Post With in 24H </h3>
+        { !isSearch ? <h3 className='p-2 text-lg text-gray-400 font-medium'> New Post With in 24H </h3> : ""}
         <Cards setPassDataToPannel={setPassDataToPannel} Jobs={Jobs} />
       </div>
 
       <div>
         <SidePannel PassPannelData={PassPannelData} />
       </div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
 
     </div>
   )

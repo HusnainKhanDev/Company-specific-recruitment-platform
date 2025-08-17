@@ -2,6 +2,16 @@ import { HandleGoogleCallback, RedirectGoogleLoginPage } from "../Controllers/Us
 export function GoogleAuthRoutes(app) {
     app.get("/auth/google", RedirectGoogleLoginPage);
     app.get("/auth/google/callback", HandleGoogleCallback);
+    app.post("/logout", (req, res) => {
+        console.log("chala");
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            path: "/"
+        });
+        res.status(200).json({ msg: "LoggedOut" });
+    });
 }
 // 1️⃣ User clicks "Login with Google"
 // Frontend hits: GET /auth/google

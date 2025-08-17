@@ -110,7 +110,7 @@ export const SearchJobByField = async (_, args, context) => {
         });
     }
 };
-export const UpdatingJob = async (_, args, context) => {
+export const EditExistingJob = async (_, args, context) => {
     if (!context.User) {
         throw new GraphQLError("Please login to continue.", {
             extensions: {
@@ -128,34 +128,34 @@ export const UpdatingJob = async (_, args, context) => {
             },
         });
     }
-    const { title, closingDate, workSetup, salary, description, requirements, jobType, createdBy, _id } = args.input;
-    if (!title || !closingDate || !workSetup || !description || !jobType || !createdBy || !requirements) {
-        throw new GraphQLError("All fields are required.", {
-            extensions: {
-                code: 'BAD_USER_INPUT',
-                statusCode: 400
-            }
-        });
-    }
-    const updateJob = {
-        _id,
-        title,
-        closingDate,
-        workSetup,
-        salary: salary || "Negotiable",
-        description,
-        requirements: requirements ? requirements.split(",") : [],
-        jobType,
-        createdBy,
-    };
     try {
+        const { title, closingDate, workSetup, salary, description, requirements, jobType, createdBy, _id } = args.input;
+        if (!title || !closingDate || !workSetup || !description || !jobType || !createdBy || !requirements) {
+            throw new GraphQLError("All fields are required.", {
+                extensions: {
+                    code: 'BAD_USER_INPUT',
+                    statusCode: 400
+                }
+            });
+        }
+        const updateJob = {
+            _id,
+            title,
+            closingDate,
+            workSetup,
+            salary: salary || "Negotiable",
+            description,
+            requirements: requirements ? requirements.split(",") : [],
+            jobType,
+            createdBy,
+        };
         let response = await UpdateJob(updateJob);
         if (response) {
             return response;
         }
     }
     catch (err) {
-        throw new GraphQLError("Error in Updating Job", {
+        throw new GraphQLError(err.message, {
             extensions: {
                 code: 'SERVER_ERROR',
                 statusCode: 500

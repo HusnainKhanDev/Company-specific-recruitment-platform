@@ -5,13 +5,14 @@ import CreateJobForm from './Pages/Emp_CreateJobForm'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import UserProtectedRoutes from './Components/UserProtectedRoutes'
 import EmpLandingPage from './Pages/Emp_LandingPage'
-import EmployeerProtector from './Components/EmployeerProtector'
+import EmployeerProtector from './Components/Emp_Protector'
 import AllJobs from './Pages/AllJobs'
 import ApplyForm from './Pages/ApplyForm'
 import UserApplications from './Pages/UserApplications'
 import Emp_SeeAllJobs from './Pages/Emp_SeeAllJobs'
 import Emp_AllApplications from './Pages/Emp_AllApplications'
 import Emp_EditJob from './Pages/Emp_EditJob'
+import Emp_Protector from './Components/Emp_Protector'
 
 
 const app = () => {
@@ -27,25 +28,25 @@ const app = () => {
     },
     {
       path: "/all/job",
-      element: <div> <AllJobs/></div>
+      element: <div><UserProtectedRoutes><AllJobs/></UserProtectedRoutes></div>
     },
     {
       path: "/apply/job/form",
-      element: <div> <ApplyForm/></div>
+      element: <div><UserProtectedRoutes><ApplyForm/></UserProtectedRoutes></div>
     },
     {
       path: "/user/appliations",
-      element: <div> <UserApplications/></div>
+      element: <div><UserProtectedRoutes><UserApplications/></UserProtectedRoutes></div>
     },
-
+    
 
     {
       path: "/employeer/Dashboard",
-      element: <div><EmpLandingPage/></div>
+      element: <div><Emp_Protector><EmpLandingPage/></Emp_Protector></div>
     },
     {
       path: "/create/job",
-      element: <div> <CreateJobForm/></div>
+      element: <div><Emp_Protector><CreateJobForm/></Emp_Protector></div>
     },
     {
       path: "/all/listed/jobs",

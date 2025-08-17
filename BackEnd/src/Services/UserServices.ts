@@ -28,8 +28,9 @@ export async function InsertNewUser(params: UserParamsIF) {
         }
     }
     catch(err: any){
+        console.log(err)
         if(err.code === 11000) {
-            throw new Error("Duplication arised" + err.message);
+            throw new Error("Duplication arised User already Exist");
         }
         else{
             throw new Error("Error in creating user: " + err.message);
@@ -81,6 +82,10 @@ export async function UpdateUserGoogleID(email: string, googleId: string) {
 
 export async function GetUserByID(ID: string){
     try{
+        if(!ID){
+            throw new Error("Please Provide ID")
+        }
+
         const User = await UserModel.findById(ID)
         if(!User){
             throw new Error("User Not found")

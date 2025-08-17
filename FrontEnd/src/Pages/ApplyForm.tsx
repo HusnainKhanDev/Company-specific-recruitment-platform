@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserDataContext } from '../Context/Usercontext';
 import axios from 'axios';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
 
 const ApplyForm = () => {
   let arr = ["#slide1", "#slide2", "#slide3", "#slide4"];
@@ -59,8 +60,8 @@ const ApplyForm = () => {
         navigate("/")
       }
     }
-    catch(err){
-      console.log(err)
+    catch(err: any){
+      toast.error(err.response.data.error)
     }
 
   }
@@ -71,6 +72,7 @@ const ApplyForm = () => {
 
 
   return (
+
     <div className="p-6 space-y-6 w-screen h-screen bg-[#d1d1d1]">
       {/* Steps Indicator */}
       <div className="flex justify-center text-lg h-16">
@@ -123,11 +125,11 @@ const ApplyForm = () => {
             <input value={position} onChange={(e) => setposition(e.target.value)} type="text" placeholder="Position" className="input input-bordered w-[600px] border-2 hover:border-black" />
             <div className="w-[600px] bg-white rounded-lg flex items-center px-5 justify-between border-2 hover:border-black">
               <p className='text-gray-400'>Starting Date</p>
-              <input value={startDate} onChange={(e) => setstartDate(e.target.value)} type="date" placeholder="Starting Date" className="input w-[450px]" />
+              <input value={startDate} onChange={(e) => setstartDate(e.target.value)} type="date" placeholder="Starting Date" className="h-12 w-[450px] border-0 focus:outline-none  " />
             </div>
             <div className="w-[600px] bg-white rounded-lg flex items-center px-5 justify-between border-2 hover:border-black">
               <p className='text-gray-400'>End Date</p>
-              <input value={endDate} onChange={(e) => setendDate(e.target.value)} type="date" placeholder="End Date" className="input w-[450px]" />
+              <input value={endDate} onChange={(e) => setendDate(e.target.value)} type="date" placeholder="End Date" className="h-12 w-[450px] border-0 focus:outline-none" />
             </div>
           </div>
         </div>
@@ -151,7 +153,7 @@ const ApplyForm = () => {
             <p><strong>End Date: </strong>{endDate} </p>
             <button
               onClick={Submitform}
-              className='absolute top-[83%] left-[85%] h-10 bg-white text-black w-28 transition-transform duration-300 hover:scale-110 hover:font-medium rounded-lg'>
+              className='absolute top-[83%] left-[83%] h-10 bg-white text-black w-28 transition-transform duration-300 hover:scale-110 hover:font-medium rounded-lg'>
               Submit
             </button>
 
@@ -176,6 +178,20 @@ const ApplyForm = () => {
           Next
         </button>
       </div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
     </div>
   );
 };

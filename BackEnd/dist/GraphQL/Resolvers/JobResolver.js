@@ -1,4 +1,4 @@
-import { FetchAllJobs, ListNewJob, SearchJobByField } from "../../Controllers/JobController.js";
+import { EditExistingJob, FetchAllJobs, ListNewJob, SearchJobByField } from "../../Controllers/JobController.js";
 export const JobsResolvers = {
     Query: {
         GetAllJobs: FetchAllJobs,
@@ -6,5 +6,6 @@ export const JobsResolvers = {
     },
     Mutation: {
         CreateNewJob: ListNewJob,
+        EditJob: EditExistingJob
     },
 };

@@ -1,23 +1,51 @@
 import React, { useContext, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { UserDataContext } from '../Context/Usercontext'
+import { useMutation, useQuery } from '@apollo/client'
+import { EditJob } from '../GraphQL/Mutation'
 
 const Emp_EditJob = () => {
 
     const location = useLocation()
-    const {User} = useContext(UserDataContext)
+    const {User, setUser} = useContext(UserDataContext)
+    const [ editjob, {data, loading, error}] = useMutation(EditJob)
 
+    const formattedDate = location.state.data?.closingDate ? new Date(Number(location.state.data.closingDate)).toISOString().split("T")[0] : "";
+    const [_id, set_id] = useState(location.state.data._id )
     const [title, settitle] = useState(location.state.data.title )
     const [workSetup, setworkSetup] = useState(location.state.data.workSetup)
     const [salary, setsalary] = useState(location.state.data.salary)
     const [description, setdescription] = useState(location.state.data.description)
-    const [requirements, setrequirements] = useState(location.state.data.requirements)
+    const [requirements, setrequirements] = useState(location.state.data.requirements.join(','))
     const [jobType, setjobType] = useState(location.state.data.jobType)
     const [createdBy, setcreatedBy] = useState(User._id)
-    const [closingDate, setclosingDate] = useState(location.state.data.closingDate)
+    const [closingDate, setclosingDate] = useState(formattedDate)
 
-    function EditJobHandler(e: any){
-
+    async function EditJobHandler(e: any){
+      e.preventDefault()
+      try{
+        let response = await editjob({
+          variables: {
+            input: {
+              _id,
+              closingDate: new Date(closingDate).toLocaleDateString(),
+              title,
+              workSetup,
+              salary,
+              description,
+              requirements,
+              jobType,
+              createdBy
+            }
+          }
+        })
+        if(response){
+          console.log(response)    
+        }
+      }
+      catch(err: any){
+        console.log(err.graphQLErrors[0])
+      }
     }
 
     
@@ -52,7 +80,7 @@ const Emp_EditJob = () => {
             <label className="block mb-1 font-medium">Job Type</label>
             <select value={jobType} className="glass-input-light" onChange={(e) => setjobType(e.target.value)}>
               <option value="">Select</option>
-              <option>Full-time</option>
+              <option value="">Full-time</option>
               <option>Part-time</option>
               <option>Internship</option>
             </select>
@@ -75,7 +103,7 @@ const Emp_EditJob = () => {
 
           <div>
             <label className="block mb-1 font-medium">Deadline</label>
-            <input value={new Date(Number(closingDate)).toLocaleDateString()} type="date" className="glass-input-light" onChange={(e) => setclosingDate(e.target.value)}/>
+            <input value={closingDate} type="date" className="glass-input-light" onChange={(e) => setclosingDate(e.target.value)}/>
           </div>
 
           <div className="text-center pt-4">
@@ -90,6 +118,7 @@ const Emp_EditJob = () => {
       </div>
     </div>
   )
+  
 }
 
 export default Emp_EditJob

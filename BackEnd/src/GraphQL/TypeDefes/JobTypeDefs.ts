@@ -24,6 +24,18 @@ export const JobsTypeDefs = /* GraphQL */ `
         createdBy: ID!
     }
 
+    input EditJobInput {
+        _id: ID!
+        title: String!
+        closingDate: String!
+        workSetup: String!
+        salary: String
+        description: String!
+        requirements: String
+        jobType: String!
+        createdBy: ID!
+    }
+
     type Query {
         GetAllJobs: [Job]!
         SearchJobByField(field: String!, value: String!): [Job]!
@@ -31,5 +43,6 @@ export const JobsTypeDefs = /* GraphQL */ `
 
     type Mutation {
         CreateNewJob(input: JobInput!): Job!
+        EditJob(input: EditJobInput!): Job!
     }
 `

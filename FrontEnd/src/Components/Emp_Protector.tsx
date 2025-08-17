@@ -4,15 +4,17 @@ import { getUser } from '../GraphQL/Queries';
 import { UserDataContext } from '../Context/Usercontext';
 import { useNavigate } from 'react-router-dom';
 
-const EmployeerProtector = ({children}: any) => {
+const Emp_Protector = ({children}: any) => {
     const { User, setUser } = useContext(UserDataContext);
     const { data, loading, error } = useQuery(getUser);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (data?.GetUser) {
-            localStorage.setItem('User', JSON.stringify(data.GetUser));
-            setUser(data.GetUser);
+            if(data?.GetUser.role === "Employeer"){
+                localStorage.setItem('User', JSON.stringify(data.GetUser));
+                setUser(data.GetUser);
+            }
         } else if (error) {
             navigate('/Auth', {state: { message: " Login to Countinue"}});
         }
@@ -34,17 +36,15 @@ const EmployeerProtector = ({children}: any) => {
 
 
 
-  if(User.role === "Employeer"){
+  if( User && User.role === "Employeer"){
     return (
       <div>
           {children}
       </div>
     )
   }
-  else{
-    navigate("/Auth", { state: {message: "Login as HR"}})
-  }
+  
   
 }
 
-export default EmployeerProtector
+export default Emp_Protector

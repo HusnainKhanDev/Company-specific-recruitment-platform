@@ -8,6 +8,7 @@ export const ApplicationResolvers = {
     GetUserSpecificApplication: FindApplicationsByUser
   },
 
+
   // it is called Nested Resolver 
   //If we store any field in MongoDB as ObjectIds, GraphQL will not automatically populate them — you must define nested field resolvers.
   Application: {

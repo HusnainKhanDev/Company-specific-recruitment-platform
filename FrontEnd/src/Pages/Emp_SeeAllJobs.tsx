@@ -59,7 +59,7 @@ const Emp_SeeAllJobs = () => {
                     {job.description.split(" ").length > 5 ? job.description.split(" ").slice(0,5).join(" ") +"..."
                     : job.description}
                   </td>
-                  <td>{job.requirements.join(', ')}</td>
+                  <td>{job.requirements.join(',')}</td>
                   <td>{job.jobType}</td>
                   <td>{new Date(Number(job.createdAt)).toLocaleDateString()}</td>
                   <td className=''>{job.applicants?.length || 0}</td>

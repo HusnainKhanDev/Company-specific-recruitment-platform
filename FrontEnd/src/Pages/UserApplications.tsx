@@ -19,7 +19,7 @@ const UserApplications = () => {
     return (
       <>
         <div className='text-black bg-blue-300 shadow-md fixed top-0 left-0 w-full z-50'>
-          <NavBar />
+          <NavBar Color={"black"}/>
         </div>
 
         <p className='mt-20 p-4 text-red-500 text-lg'>Error loading applications</p>
@@ -31,7 +31,7 @@ const UserApplications = () => {
     return (
       <>
         <div className='text-black bg-blue-300 shadow-md fixed top-0 left-0 w-full z-50'>
-          <NavBar />
+          <NavBar Color={"black"}/>
         </div>
 
         <p className='mt-20 p-4 text-lg font-semibold font-mono'>
@@ -46,7 +46,7 @@ const UserApplications = () => {
     <>
       {/* Navbar only once */}
       <div className='text-black bg-blue-300 shadow-md fixed top-0 left-0 w-full z-50'>
-        <NavBar />
+        <NavBar Color={"black"}/>
       </div>
 
       {applications.map((app: any) => (

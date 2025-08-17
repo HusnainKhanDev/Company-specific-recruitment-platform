@@ -12,7 +12,7 @@ export const submitApplication = async (req, res) => {
     if (!fullname || !email || !phone || !jobId || !candidateId || !resume) {
         console.log(fullname, email, phone, jobId, candidateId, resume, skills);
         return res.status(400).json({
-            error: "Fullname, email, phone, jobId, candidateId, resume, and skills are required."
+            error: "Fullname, email, phone, jobId, resume, and skills are required."
         });
     }
     let data2 = skills.split(",");

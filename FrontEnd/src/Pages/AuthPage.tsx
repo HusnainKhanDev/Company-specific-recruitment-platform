@@ -14,9 +14,13 @@ const AuthPage = () => {
 
     
     return (
-        <div className='bg-[#2c2638] w-full h-screen'>
+        <div className='bg-[#2c2638] w-full h-screen relative'>
             <div className='w-[50%] h-screen absolute left-5 flex  items-center ' >
                 <Carousel/>
+            </div>
+
+            <div className='absolute top-10 left-10 '>
+                <p style={{ fontFamily: "Tangerine, cursive"}} className='text-5xl font-bold'>CompanyLogo</p>
             </div>
 
             {isLogin ? '' : 

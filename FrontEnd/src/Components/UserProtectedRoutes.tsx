@@ -12,12 +12,17 @@ const UserProtectedRoutes = ({ children }: any) => {
     //useEffect used to avoid triggering navigation during render
     useEffect(() => {
         if (data?.GetUser) {
-            localStorage.setItem('User', JSON.stringify(data.GetUser));
-            setUser(data.GetUser);
+            if (data.GetUser.role === "Candidate") {
+                localStorage.setItem("User", JSON.stringify(data.GetUser));
+                setUser(data.GetUser);
+            } else {
+                navigate("/Auth"); // wrong role, boot them out
+            }
         } else if (error) {
-            navigate('/Auth');
+            navigate("/Auth");
         }
     }, [data, error, navigate, setUser]);
+
 
     if (loading) {
         return (
@@ -32,8 +37,13 @@ const UserProtectedRoutes = ({ children }: any) => {
         );
     }
 
-    // ✅ Render children only if user exists
-    if (User) {
+    // while data is being checked, don't render children yet
+    if (!data?.GetUser) {
+        return null; // this help to stop flicker
+    }
+
+    // Render children only if user exists
+    if (User && User.role === "Candidate") {
         return <div>{children}</div>;
     }
 

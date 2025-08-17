@@ -6,6 +6,20 @@ export function GoogleAuthRoutes(app: any){
 
     app.get("/auth/google/callback", HandleGoogleCallback)
 
+
+    app.post("/logout", (req: any, res: any) => {
+        console.log("chala")
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            path: "/"
+        });
+
+        res.status(200).json({msg: "LoggedOut"})
+});
+
+
 }
 
 // 1️⃣ User clicks "Login with Google"

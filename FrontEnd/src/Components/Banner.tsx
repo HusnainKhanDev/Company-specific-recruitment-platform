@@ -17,6 +17,10 @@ export function Banner(prop: any) {
           value: value
         }
       })
+      if(error) {
+        prop.toast.error(error.graphQLErrors[0].message)
+        console.log(error.graphQLErrors[0].message)
+      }
       console.log(data.SearchJobByField)
       prop.setSearchData(data.SearchJobByField)
       prop.setisSearch(true)
@@ -32,9 +36,11 @@ export function Banner(prop: any) {
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
       {/* Navbar */}
+
         <div className='text-white absolute top-0 left-0 w-full'>
-            <NavBar/>
+            <NavBar Color={"white"}/>
         </div>
+
 
       {/* Content */}
       <div className="relative z-10 flex flex-col justify-center h-full px-8 space-y-6 items-start max-w-2xl">

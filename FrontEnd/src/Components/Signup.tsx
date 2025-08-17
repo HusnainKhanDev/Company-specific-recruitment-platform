@@ -36,7 +36,8 @@ const Signup = (prop: any) => {
                 }
             })
             if(response){
-                setUser(response.data.CreateUser)
+                console.log("From Signup", response)
+                setUser(response?.data.CreateUser)
                 localStorage.setItem("User", JSON.stringify(response.data.CreateUser))
                 if(User.role === "Employeer"){
                     navigate("/Employeer/Dashboard")
@@ -46,7 +47,8 @@ const Signup = (prop: any) => {
                 }
             }
         }
-        catch(err){
+        catch(err: any){
+            setError(err.graphQLErrors[0].message)
             console.log(err)
         }   
         
@@ -59,10 +61,9 @@ const Signup = (prop: any) => {
 
     useEffect(() => {
         setError(location.state?.message)
-        setTimeout(()=>{
-            setError("")
-        }, 3000)
     }, [location.state?.message])
+
+
     
 
     return (
@@ -83,7 +84,7 @@ const Signup = (prop: any) => {
                 <div className='flex gap-5'>
                     <label className="input input-bordered w-[50%] bg-[#3c364d] text-white flex items-center gap-2">
                         Email
-                        <input type="text" className="" placeholder="Alex@gmail.com" onChange={(e) => setEmail(e.target.value)}/>
+                        <input type="email" className="" placeholder="Alex@gmail.com" onChange={(e) => setEmail(e.target.value)}/>
                     </label>
                     <label className="input input-bordered w-[45%] bg-[#3c364d] text-white flex items-center gap-2">
                         Phone
@@ -93,7 +94,7 @@ const Signup = (prop: any) => {
 
                 <label className="input input-bordered  bg-[#3c364d] text-white flex items-center gap-2">
                     Password
-                    <input type="text" className="" placeholder="**********" onChange={(e) => setPassword(e.target.value)}/>
+                    <input type="password" className="" placeholder="**********" onChange={(e) => setPassword(e.target.value)}/>
                 </label>
 
                 <button className="btn w-full text-white font-normal text-xl bg-[#6c53b5] hover:bg-[#482c9d] hover:border-2 hover:border-white hover:font-semibold">
@@ -112,9 +113,10 @@ const Signup = (prop: any) => {
 
             <div
                 onClick={(e) => {handleGoogleLogin(e)}}
-                className=' hover:bg-[linear-gradient(to_right,_#ef4444,_#facc15,_#26f876,_#4040f9)] w-[20%] h-12 ml-[41%] flex justify-center items-center gap-3 border-2 border-white rounded-lg p-3 cursor-pointer transition-all duration-300'>
+                className=' hover:bg-[linear-gradient(to_right,_#ef4444cc,_#facc15cc,_#26f876cc,_#4040f9cc)]  w-[20%] h-12 ml-[41%] flex justify-center items-center relative gap-3 border-2 border-white rounded-lg p-3 cursor-pointer transition-all duration-300'>
+                {/* <div className="w-full h-full absolute  bg-white/20"></div> */}
                 <img src="google.png" alt="" className='h-5 w-5' />
-                <p className='text-white text-lg'>Google</p>
+                <p className='text-white font-semibold text-lg text-center'>Google</p>
             </div>
 
             {

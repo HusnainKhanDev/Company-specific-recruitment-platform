@@ -33,3 +33,20 @@ export const CreateJobMut = gql`
         }
 }
 `
+
+export const EditJob = gql`
+    mutation EditJob($input: EditJobInput!) {
+        EditJob(input: $input) {
+            _id,
+            title,
+            closingDate
+            workSetup
+            salary
+            description
+            requirements
+            jobType
+            createdAt
+            countApplicants
+        }
+    }
+`

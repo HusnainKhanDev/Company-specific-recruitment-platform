@@ -9,8 +9,8 @@ export const ListNewJob = async (_, args, context) => {
             },
         });
     }
-    if (context.User.Role !== "Employeer") {
-        console.log("Employeer");
+    if (context.User.Role != "Employeer") {
+        console.log(context.User.Role);
         throw new GraphQLError("Only Employers can create jobs.", {
             extensions: {
                 code: "FORBIDDEN",

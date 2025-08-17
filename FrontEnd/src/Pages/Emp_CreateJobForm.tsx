@@ -3,6 +3,7 @@ import { UserDataContext } from '../Context/Usercontext';
 import { CreateJobMut } from '../GraphQL/Mutation';
 import { useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
+import { Bounce, Flip, toast, ToastContainer } from 'react-toastify';
 
 const CreateJobForm = () => {
 
@@ -38,34 +39,33 @@ const CreateJobForm = () => {
             }
           }
         })
-        if(response) {
-          console.log(response.data.CreateNewJob)
+        if(response.data.CreateNewJob) {
+          toast.success("New Job is Created")
         }
       }
-      catch(err){
-          console.log(err)
+      catch(error: any){
+          // console.log("Create form",  error.graphQLErrors[0].message)
+          toast.error(error.graphQLErrors[0].message)
       }
     }
 
 
 
-
-
-
-
- 
     return (
-    <div
-    className="w-full h-screen bg-[url('/bg-office.png')] bg-conver bg-center overflow-hidden bg-no-repeat  px-6 py-10"
-    >
+      // Main Div
+    <div className="w-full h-screen bg-[url('/bg-office.png')] bg-conver bg-center overflow-hidden bg-no-repeat  px-6 py-10">
      
+     {/* Actual Card */}
      <div className="w-full max-w-xl bg-white/50 backdrop-blur-md border border-white/40 rounded-2xl shadow-2xl p-5 text-gray-800 overflow-y-auto max-h-[90vh]">
-        <Link
+        
+        <Link //Back Button
           to={"/employeer/Dashboard"}
           className='mb-4 text-xl flex gap-2 text-black'><i className="ri-arrow-go-back-line"></i> 
           <p>Back</p>
         </Link>
+
         <h1 className="text-2xl font-bold mb-4 mt-4 text-gray-800">Create Job Posting</h1>
+        
 
         <form className="space-y-5" onSubmit={(e) => CreateJobFromHandler(e)}>
           <div>
@@ -77,9 +77,9 @@ const CreateJobForm = () => {
             <label className="block mb-1 font-medium">Work Setup</label>
             <select className="glass-input-light" onChange={(e) => setworkSetup(e.target.value)}>
               <option value="">Select</option>
-              <option>onsite</option>
-              <option>remote</option>
-              <option>hybrid</option>
+              <option value={"onsite"}>onsite</option>
+              <option value={"remote"}>remote</option>
+              <option value={"hybrid"}>hybrid</option>
             </select>
           </div>
 
@@ -87,9 +87,9 @@ const CreateJobForm = () => {
             <label className="block mb-1 font-medium">Job Type</label>
             <select className="glass-input-light" onChange={(e) => setjobType(e.target.value)}>
               <option value="">Select</option>
-              <option>Full-time</option>
-              <option>Part-time</option>
-              <option>Internship</option>
+              <option value={"full-time"}>Full-time</option>
+              <option value={"part-time"}>Part-time</option>
+              <option value={"internship"}>Internship</option>
             </select>
           </div>
 
@@ -113,16 +113,34 @@ const CreateJobForm = () => {
             <input type="date" className="glass-input-light" onChange={(e) => setclosingDate(e.target.value)}/>
           </div>
 
-          <div className="text-center pt-4">
             <button
               type="submit"
-              className="bg-blue-600 w-[500px] hover:bg-black  text-white font-semibold px-6 py-2 rounded-md transition duration-300"
+              className="bg-blue-600  w-[520px] hover:bg-black  text-white font-semibold px-6 py-2 rounded-md transition duration-300"
             >
               Post Job
             </button>
-          </div>
         </form>
-      </div>
+
+      {/* Card End */}
+      </div> 
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Flip}
+      />
+
+
+
+
     </div>
   );
 };

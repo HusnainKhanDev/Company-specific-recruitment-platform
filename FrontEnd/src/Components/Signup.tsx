@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useMutation, useQuery } from '@apollo/client'
+import {  useMutation } from '@apollo/client'
 import { CreateUserMut } from '../GraphQL/Mutation'
 import { UserDataContext } from '../Context/Usercontext';
-import { getUser } from '../GraphQL/Queries';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 
@@ -11,6 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const Signup = (prop: any) => {
 
     const [createUser, { data, loading}] = useMutation(CreateUserMut);
+    
     const {User, setUser} = useContext(UserDataContext)
     const navigate = useNavigate()
     const location = useLocation();
@@ -38,7 +38,7 @@ const Signup = (prop: any) => {
             if(response){
                 console.log("From Signup", response)
                 setUser(response?.data.CreateUser)
-                localStorage.setItem("User", JSON.stringify(response.data.CreateUser))
+                sessionStorage.setItem("User", JSON.stringify(response.data.CreateUser))
                 if(User.role === "Employeer"){
                     navigate("/Employeer/Dashboard")
                 }

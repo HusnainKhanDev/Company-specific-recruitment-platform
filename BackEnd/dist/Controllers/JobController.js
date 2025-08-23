@@ -1,5 +1,5 @@
 import { GraphQLError } from "graphql";
-import { createJob, getAllJobs, searchJob, UpdateJob } from "../Services/JobServices.js";
+import { createJob, getAllJobs, removeJob, searchJob, UpdateJob } from "../Services/JobServices.js";
 export const ListNewJob = async (_, args, context) => {
     if (!context.User) {
         throw new GraphQLError("Please login to continue.", {
@@ -27,13 +27,17 @@ export const ListNewJob = async (_, args, context) => {
             }
         });
     }
+    let data2 = requirements.split(",");
+    let data3 = data2.map((i) => {
+        return i.trim();
+    });
     const newJob = {
         title,
         closingDate,
         workSetup,
         salary: salary || "Negotiable",
         description,
-        requirements: requirements.split(","),
+        requirements: data3,
         jobType,
         createdBy,
     };
@@ -61,7 +65,6 @@ export const ListNewJob = async (_, args, context) => {
 };
 export const FetchAllJobs = async () => {
     try {
-        console.log("Request has been Done By react App");
         const jobs = await getAllJobs();
         return jobs;
     }
@@ -158,6 +161,48 @@ export const EditExistingJob = async (_, args, context) => {
         throw new GraphQLError(err.message, {
             extensions: {
                 code: 'SERVER_ERROR',
+                statusCode: 500
+            }
+        });
+    }
+};
+export const DeleteJob = async (_, args, context) => {
+    if (!context.User) {
+        throw new GraphQLError("Please login to continue.", {
+            extensions: {
+                code: "UNAUTHENTICATED_USER",
+                statusCode: 401,
+            },
+        });
+    }
+    if (context.User.Role != "Employeer") {
+        console.log(context.User.Role);
+        throw new GraphQLError("Only Employers can create jobs.", {
+            extensions: {
+                code: "FORBIDDEN",
+                statusCode: 403,
+            },
+        });
+    }
+    const JobId = args.ID;
+    if (!JobId) {
+        throw new GraphQLError("Please Provide Job ID: ", {
+            extensions: {
+                code: "BAD_USER_INPUT",
+                statusCode: 422
+            }
+        });
+    }
+    try {
+        let response = await removeJob(JobId);
+        if (response) {
+            return { msg: "Deleted", statusCode: 200 };
+        }
+    }
+    catch {
+        throw new GraphQLError("Error in Deleting Job: ", {
+            extensions: {
+                code: "SERVER_ERROR",
                 statusCode: 500
             }
         });

@@ -36,6 +36,11 @@ export const JobsTypeDefs = /* GraphQL */ `
         createdBy: ID!
     }
 
+    type DeleteJobResponse {
+        msg: String
+        statusCode: Int
+    }
+
     type Query {
         GetAllJobs: [Job]!
         SearchJobByField(field: String!, value: String!): [Job]!
@@ -44,5 +49,6 @@ export const JobsTypeDefs = /* GraphQL */ `
     type Mutation {
         CreateNewJob(input: JobInput!): Job!
         EditJob(input: EditJobInput!): Job!
+        DeleteJob(ID: String!): DeleteJobResponse
     }
 `

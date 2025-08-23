@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { UserDataContext } from '../Context/Usercontext';
 import axios from 'axios';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
+import { useLazyQuery } from '@apollo/client';
+import { GetJobs } from '../GraphQL/Queries';
 
 const ApplyForm = () => {
   let arr = ["#slide1", "#slide2", "#slide3", "#slide4"];
@@ -12,13 +14,16 @@ const ApplyForm = () => {
     window.location.href = arr[counter];
   }, [counter])
 
-
+  const [getjobs, { data: lazyData, loading: lazyLoading, error: lazyError }] = useLazyQuery(GetJobs, {
+    fetchPolicy: 'network-only'
+  });
+  const {User} = useContext(UserDataContext)
 
   const location = useLocation()
   const navigate = useNavigate()
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [fullname, setFullname] = useState(User.fullname);
+  const [email, setEmail] = useState(User.email);
+  const [phone, setPhone] = useState(User.phone || "");
   const [jobId, setJobId] = useState("");
   const [candidateDescription, setCandidateDescription] = useState("");
   const [linkedInProfile, setLinkedInProfile] = useState("");
@@ -29,7 +34,7 @@ const ApplyForm = () => {
   const [startDate, setstartDate] = useState("");
   const [endDate, setendDate] = useState("");
 
-  const {User} = useContext(UserDataContext)
+  
 
   useEffect(() => {
       setJobId(location.state?.ID)
@@ -56,7 +61,9 @@ const ApplyForm = () => {
     try{
       let response = await axios.post("http://localhost:4000/submit/application", formdata, {withCredentials: true})
       console.log(response)
-      if(response.data.status === 201){
+      console.log(response)
+      if(response.status === 201){
+        getjobs()
         navigate("/")
       }
     }
@@ -65,10 +72,6 @@ const ApplyForm = () => {
     }
 
   }
-
-
-
-
 
 
   return (
@@ -107,6 +110,7 @@ const ApplyForm = () => {
               <p className='ml-5'>{resume?.name}</p>
               <input
                 onChange={(e) => setResume(e.target?.files ? e.target?.files[0] : null)}
+                required
                 type="file"
                 className="absolute opacity-0 w-full cursor-pointer" />
             </div>

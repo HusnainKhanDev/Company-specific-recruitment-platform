@@ -46,7 +46,9 @@ const JobSchema = new mongoose.Schema({
   countApplicants: {
     type: Number,
     default: 0
-  }
+  },
+  isDeleted: { type: Boolean, default: false, select: false }
+
 });
 
 export default mongoose.model("job", JobSchema);

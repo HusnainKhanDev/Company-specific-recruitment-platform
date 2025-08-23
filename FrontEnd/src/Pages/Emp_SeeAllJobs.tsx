@@ -1,26 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import Emp_NavBar from '../Components/Emp_NavBar';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { GetJobs } from '../GraphQL/Queries';
 import { Job } from '../Components/Cards';
 import { useNavigate } from 'react-router-dom';
+import { DeleteJob } from '../GraphQL/Mutation';
 
 const Emp_SeeAllJobs = () => {
-  const { data, loading, error } = useQuery(GetJobs);
+  const { data, loading, error } = useQuery(GetJobs , {
+    fetchPolicy: "network-only"
+  });
+
+  const [deletejob] = useMutation(DeleteJob, {
+    refetchQueries: [{ query: GetJobs }],
+    onError: (err) => console.log("Error Message", err)
+  })
+
   const [JobData, setJobData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setJobData(data?.GetAllJobs);
+    setJobData(data?.GetAllJobs); 
   }, [data]);
 
   function handleEdit(data: Job) {
     navigate("/edit/job", { state: { data } });
   }
 
-  function handleDelete() {
-    // delete logic here
+  async function handleDelete(ID: string) {
+    console.log("ID a gai")
+    try {
+      let res = await deletejob({
+        variables: {
+          id: ID
+        }
+      })
+
+
   }
+  catch(err: any){
+    console.log(err.message)
+  }
+}
 
   return (
     <div>
@@ -66,7 +87,7 @@ const Emp_SeeAllJobs = () => {
                   <td>{job.requirements.join(",")}</td>
                   <td>{job.jobType}</td>
                   <td>{new Date(Number(job.createdAt)).toLocaleDateString()}</td>
-                  <td>{job.applicants?.length || 0}</td>
+                  <td>{job.countApplicants}</td>
                   <td>
                     <button
                       onClick={() => handleEdit(job)}
@@ -76,7 +97,9 @@ const Emp_SeeAllJobs = () => {
                     </button>
                   </td>
                   <td>
-                    <button className="btn btn-sm btn-outline btn-error">
+                    <button 
+                    onClick={() => handleDelete(job._id)}
+                    className="btn btn-sm btn-outline btn-error">
                       Delete
                     </button>
                   </td>

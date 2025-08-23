@@ -1,19 +1,52 @@
+import { useMutation } from '@apollo/client'
 import React from 'react'
+import { EditStatus } from '../GraphQL/Mutation'
 
 const Emp_Applications = (prop: any) => {
+
+    const [changeStatusFun, {}] = useMutation(EditStatus, {
+        update(cache, {data}) {
+            if(!data.Change_Staus) return
+
+            cache.modify({
+                id: cache.identify(data.Change_Staus),
+                fields: {
+                    status(){
+                        return data.Change_Staus.status
+                    }
+                }
+            })
+        }
+    })
+
+    async function ChangeStatus(Status: string, ID: string ) {
+        console.log(Status, ID)
+        let Res = await changeStatusFun({
+            variables:{
+                appid: ID,
+                status: Status
+            }
+        })
+
+        console.log(Res.data.Change_Staus.status)
+    }
+
     return (
-        <div className=''>
+        <div className='px-4'>
             {prop?.Applications?.map((app: any) => (
-                <div key={app._id} className='mt-6 w-[50%] p-4'>
+                <div key={app._id} className='w-[50%] py-4'>
                     <div
                         tabIndex={0}
-                        className='collapse collapse-arrow border-2 border-blue-400 rounded-lg bg-white shadow-sm hover:shadow-md transition-all duration-300'
+                        className='collapse collapse-arrow border-2  border-blue-400 rounded-lg shadow-sm hover:shadow-md transition-all duration-300'
                     >
                         <input type='checkbox' />
 
                         {/* Header */}
                         <div className='collapse-title space-y-1'>
-                            <p className='text-lg font-semibold text-gray-800'>{app.fullname}</p>
+                            <div className='flex items-center justify-between'>
+                                <p className='text-lg font-semibold text-gray-800'>{app.fullname}</p>
+                                <p className={`font-medium ${app.status === "Accepted" ? "text-green-500" : app.status === "Rejected" ? "text-red-500" : "text-blue-500"}`}> Status: {app.status}</p>
+                            </div>
 
                             <div className='flex gap-5 text-gray-600'>
                                 <p className='flex items-center gap-1'>
@@ -71,7 +104,7 @@ const Emp_Applications = (prop: any) => {
 
                             {/* Description */}
                             <div>
-                                <h1 className='font-semibold text-gray-900 mb-1'>Description:</h1>
+                                <h1 className='font-semibold text-gray-900'>Description:</h1>
                                 <p className='text-gray-600 leading-relaxed'>{app.candidateDescription}</p>
                             </div>
 
@@ -83,6 +116,22 @@ const Emp_Applications = (prop: any) => {
                                 <p className='text-gray-600'>{app.pastJob?.startDate ? new Date(app.pastJob.endDate).toLocaleDateString() : ""}</p>
                                 <p className='text-gray-600'>{app.pastJob?.endDate ? new Date(app.pastJob.endDate).toLocaleDateString() : ""}</p>
                             </div>
+                            <hr />
+
+                            <div className='flex gap-2 text-base'>
+                                <h1 className='font-semibold text-gray-900'>Ats Score: </h1>
+                                <p>{app.atsScore}%</p>
+                            </div>
+                            <div>
+                                <h1 className='font-semibold text-gray-900 text-base'>Ats FeedBack: </h1>
+                                <p>{app.atsFeedback}</p>
+                            </div>
+
+                            <div className='flex items-center justify-around'>
+                                <button value="Accepted" onClick={(e) => ChangeStatus(e.currentTarget.value, app._id)} className='btn btn-outline btn-success btn-wide text-[15px]'>Accept</button>
+                                <button value="Rejected" onClick={(e) => ChangeStatus(e.currentTarget.value, app._id)} className='btn btn-error btn-outline btn-wide text-[15px] '>Reject</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>

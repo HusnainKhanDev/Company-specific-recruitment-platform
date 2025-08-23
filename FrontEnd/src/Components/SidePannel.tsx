@@ -7,7 +7,6 @@ interface PassPannelDataIF {
 }
 
 const SidePannel = ({ PassPannelData }: PassPannelDataIF) => {
-  console.log("Data from Side pannel: ", PassPannelData);
   const navigate = useNavigate()
   
   function HandleApply(id: string){
@@ -46,10 +45,17 @@ const SidePannel = ({ PassPannelData }: PassPannelDataIF) => {
           {/* Requirements */}
           <div>
             <h2 className="text-lg font-semibold text-gray-700 mb-1 -mt-2">Requirements</h2>
-            <div className="h-40 overflow-y-scroll bg-blue-50 p-3 rounded-lg hide-scrollbar space-y-2">
-              {PassPannelData.requirements.map((req, index) => (
-                <li key={index}>{req}</li>
-              ))}
+            <div className="h-40 overflow-y-scroll bg-blue-50 p-3 rounded-lg hide-scrollbar">
+              <ul>
+                {PassPannelData.requirements.map((req, index) => (
+                  <li key={index}>
+                    <div className='p-1'>
+                      <i className="ri-circle-fill text-[8px]"></i>
+                      <p>{req}</p>
+                    </div> 
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 

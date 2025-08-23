@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { UserDataContext } from '../Context/Usercontext'
 import { useMutation, useQuery } from '@apollo/client'
 import { EditJob } from '../GraphQL/Mutation'
+import { Bounce, toast, ToastContainer } from 'react-toastify'
 
 const Emp_EditJob = () => {
 
@@ -41,6 +42,7 @@ const Emp_EditJob = () => {
         })
         if(response){
           console.log(response)    
+          toast.success("Successfully Edit")
         }
       }
       catch(err: any){
@@ -54,7 +56,7 @@ const Emp_EditJob = () => {
     <div className=' w-screen h-screen bg-[url("/Bg_Img.jpg")] bg-no-repeat bg-cover'>
         <div className="fixed top-8 left-[27%] w-full max-w-xl bg-white/30 backdrop-blur-sm border border-white/40 rounded-2xl shadow-white/20 shadow-xl p-5 text-white overflow-y-auto max-h-[90vh]">
         <Link
-          to={"/employeer/Dashboard"}
+          to={"/all/listed/jobs"}
           className='mb-4 text-xl flex gap-2 text-white'><i className="ri-arrow-go-back-line"></i> 
           <p>Back</p>
         </Link>
@@ -80,9 +82,9 @@ const Emp_EditJob = () => {
             <label className="block mb-1 font-medium">Job Type</label>
             <select value={jobType} className="glass-input-light" onChange={(e) => setjobType(e.target.value)}>
               <option value="">Select</option>
-              <option value="">Full-time</option>
-              <option>Part-time</option>
-              <option>Internship</option>
+              <option value="full-time">Full-time</option>
+              <option value="part-time">Part-time</option>
+              <option value="internship">Internship</option>
             </select>
           </div>
 
@@ -116,6 +118,19 @@ const Emp_EditJob = () => {
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
     </div>
   )
   

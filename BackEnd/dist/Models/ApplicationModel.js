@@ -23,12 +23,12 @@ const ApplicationSchema = new mongoose.Schema({
     },
     jobId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Job",
+        ref: "job",
         required: true
     },
     candidateId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Candidate",
+        ref: "user",
         required: true
     },
     candidateDescription: {
@@ -42,6 +42,14 @@ const ApplicationSchema = new mongoose.Schema({
         type: String,
         enum: ["Pending", "Rejected", "Accepted"],
         default: "Pending"
+    },
+    atsScore: {
+        type: Number,
+        default: 0
+    },
+    atsFeedback: {
+        type: String,
+        default: "In Progress"
     },
     resume: {
         type: String,

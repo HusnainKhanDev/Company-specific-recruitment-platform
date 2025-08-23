@@ -7,7 +7,6 @@ export async function createJob(params) {
     requirements.forEach((item, index) => {
         requirements[index] = item.trim().toLowerCase();
     });
-    console.log("Final requirment", requirements);
     const input = {
         title,
         closingDate,
@@ -32,7 +31,7 @@ export async function createJob(params) {
 }
 export async function getAllJobs() {
     try {
-        const jobs = await JobModel.find();
+        const jobs = await JobModel.find({ isDeleted: false });
         return jobs;
     }
     catch (err) {
@@ -45,7 +44,7 @@ export async function searchJob(field, value) {
         if (!field || !value) {
             throw new Error("Field and value are required for search.");
         }
-        const query = { [field]: value };
+        const query = { [field]: value, isDeleted: false };
         const result = await JobModel.find(query);
         if (!result || result.length === 0) {
             throw new Error("No jobs found for the given search criteria.");
@@ -63,13 +62,9 @@ export async function GetJobById(ID) {
             throw new Error("ID required for search.");
         }
         const result = await JobModel.findById(ID);
-        if (!result) {
-            throw new Error("No job found for the given ID.");
-        }
         return result;
     }
     catch (err) {
-        console.error("Error In Finding Specific job:", err);
         throw new Error(err.message);
     }
 }
@@ -104,5 +99,32 @@ export async function UpdateJob(params) {
     catch (err) {
         console.error("Error updating job:", err);
         throw new Error(err.message || "Internal server error.");
+    }
+}
+export async function removeJob(ID) {
+    try {
+        let response = await JobModel.findByIdAndUpdate(ID, { $set: { isDeleted: true } }, { new: true });
+        console.log("Response", response);
+        if (response) {
+            return true;
+        }
+    }
+    catch (err) {
+        console.log("Delete Error: ", err);
+        throw new Error("Error in Deleting Job");
+    }
+}
+export async function UpdateCont(JobID) {
+    try {
+        let response = await JobModel.findByIdAndUpdate(JobID, { $inc: { countApplicants: 1 } }, { new: true });
+        if (response) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+        throw new Error("Error in Updating Count");
     }
 }

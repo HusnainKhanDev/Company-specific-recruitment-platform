@@ -27,7 +27,7 @@ const Login = (prop: any) => {
                 if(response.data){
                     console.log("from Login", response)
                     setUser(response.data.LoginUser)
-                    localStorage.setItem("User", JSON.stringify(response.data.LoginUser))
+                    sessionStorage.setItem("User", JSON.stringify(response.data.LoginUser))
 
                     if(response.data.LoginUser.role === "Employeer"){
                         navigate("/Employeer/Dashboard")

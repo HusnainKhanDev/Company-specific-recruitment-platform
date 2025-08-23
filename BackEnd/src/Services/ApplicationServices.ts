@@ -1,10 +1,16 @@
+import { response } from "express";
 import ApplicationModel from "../Models/ApplicationModel.js";
 import { ApplicationParamIF } from "../Types_Interfaces.js";
+import { UpdateCont } from "./JobServices.js";
 
 export async function createApplication(Params: ApplicationParamIF) {
     try{
         let result = await ApplicationModel.create(Params)
         if(result){
+            let CountRes = await UpdateCont(Params.jobId)
+            if(!CountRes){
+                console.log("Error while Updating Count")
+            }
             return result
         }
         else{
@@ -50,4 +56,22 @@ export async function FindAppByUserID(ID: string) {
         throw new Error("Something Went Wrong while Fetching User Application")
     }
 }
+
+export async function EditStatus(ID: string, Status: string){
+    try{
+        let Response = await ApplicationModel.findByIdAndUpdate(
+            ID,
+            {$set: {status: Status}},
+            {new: true}
+        )
+        if(!Response){
+            throw new Error("Status is Not Changed")
+        }
+        return Response
+    }
+    catch(err: any){
+        throw new Error("Something Went Wrong While Changing Status: " + err.meesage)
+    }
+}
+
 

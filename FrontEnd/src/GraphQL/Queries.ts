@@ -48,6 +48,7 @@ export const GetUserSpecificApplication = gql`
       position
       startDate
     }
+    status
     phone
     resume
     skills
@@ -83,6 +84,9 @@ export const GetAllApplications = gql `
     email
     phone
     resume
+    status
+    atsFeedback
+    atsScore
     linkedInProfile
     jobId {
       title
@@ -94,6 +98,7 @@ export const GetAllApplications = gql `
       endDate
       companyName
     }
+    createdAt
     candidateDescription
   }
 }

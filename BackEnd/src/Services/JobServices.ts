@@ -12,9 +12,6 @@ export async function createJob(params: JobParamsIF) {
         requirements[index] = item.trim().toLowerCase();
     });
 
-
-    console.log("Final requirment", requirements)
-
     const input = {
         title,
         closingDate,
@@ -26,14 +23,14 @@ export async function createJob(params: JobParamsIF) {
         createdBy
     }
 
-    try{
+    try {
         const newJob = await JobModel.create(input);
         if (!newJob) {
             throw new Error("Failed to create job.");
         }
         return newJob;
     }
-    catch(err:any ) {
+    catch (err: any) {
         console.error("Error creating job:", err);
         throw new Error(err.message);
     }
@@ -42,7 +39,7 @@ export async function createJob(params: JobParamsIF) {
 
 export async function getAllJobs() {
     try {
-        const jobs = await JobModel.find();
+        const jobs = await JobModel.find({ isDeleted: false });
         return jobs;
     } catch (err: any) {
         console.error("Error fetching jobs:", err);
@@ -51,14 +48,14 @@ export async function getAllJobs() {
 }
 
 export async function searchJob(field: string, value: string) {
-    try{
+    try {
         if (!field || !value) {
             throw new Error("Field and value are required for search.");
         }
 
-        const query: any = { [field]: value }
-        
-        const result = await JobModel.find(query);  
+        const query: any = { [field]: value, isDeleted: false }
+
+        const result = await JobModel.find(query);
 
         if (!result || result.length === 0) {
             throw new Error("No jobs found for the given search criteria.");
@@ -75,21 +72,16 @@ export async function searchJob(field: string, value: string) {
 
 
 export async function GetJobById(ID: string) {
-    try{
+    try {
         if (!ID) {
             throw new Error("ID required for search.");
         }
-        
-        const result = await JobModel.findById(ID);  
 
-        if (!result) {
-            throw new Error("No job found for the given ID.");
-        }
+        const result = await JobModel.findById(ID);
 
         return result;
     }
     catch (err: any) {
-        console.error("Error In Finding Specific job:", err);
         throw new Error(err.message);
     }
 
@@ -144,3 +136,39 @@ export async function UpdateJob(params: JobParamsIF & { _id: string }) {
     }
 }
 
+export async function removeJob(ID: string) {
+    try {
+        let response = await JobModel.findByIdAndUpdate(
+            ID,
+            { $set: { isDeleted: true } },
+            { new: true }
+        );
+        console.log("Response", response)
+        if (response) {
+            return true
+        }
+    }
+    catch (err) {
+        console.log("Delete Error: ", err)
+        throw new Error("Error in Deleting Job")
+    }
+}
+
+export async function UpdateCont(JobID: string) {
+    try{
+        let response = await JobModel.findByIdAndUpdate(
+            JobID,
+            {$inc:{countApplicants: 1}},
+            {new: true}
+        )
+        if(response){
+            return true
+        }
+        else{
+            return false;
+        }
+    }
+    catch(err){
+        throw new Error("Error in Updating Count")
+    }
+}

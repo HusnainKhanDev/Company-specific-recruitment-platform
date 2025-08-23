@@ -8,12 +8,12 @@ const Emp_AllApplications = () => {
 
   const cachedData = Client.readQuery({query: GetAllApplications})
   console.log("Emp_AllApplications ", cachedData?.GetApplications)
+
   return (
     <div>
-        <div>
+        <div className=''>
             <Emp_NavBar/>
         </div>
-
 
         <div>
           <Emp_Applications Applications={cachedData?.GetApplications} />

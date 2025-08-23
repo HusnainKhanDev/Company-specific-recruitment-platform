@@ -13,7 +13,7 @@ const UserProtectedRoutes = ({ children }: any) => {
     useEffect(() => {
         if (data?.GetUser) {
             if (data.GetUser.role === "Candidate") {
-                localStorage.setItem("User", JSON.stringify(data.GetUser));
+                sessionStorage.setItem("User", JSON.stringify(data.GetUser));
                 setUser(data.GetUser);
             } else {
                 navigate("/Auth"); // wrong role, boot them out

@@ -3,9 +3,11 @@ import { StartApolloServer } from './GraphQL/ApolloServer.js'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
-import mongoose, { Connection } from 'mongoose'
+import mongoose from 'mongoose'
 import { GoogleAuthRoutes } from './Routes/AuthRoutes.js'
 import { CreateNewApplication } from './Routes/ApplicationRoute.js';
+import './MiddleWare/ScheduleAts.js'
+import './MiddleWare/ScheduleEmail.js'
 dotenv.config();
 
 const port = process.env.PORT
@@ -44,7 +46,3 @@ StartApolloServer(app)
 app.listen(port, () => {
     console.log(`Server is Running On Port ${port}`)
 })
-
-
-
-

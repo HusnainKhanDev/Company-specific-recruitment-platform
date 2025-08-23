@@ -29,12 +29,13 @@ export const createNewUser = async (_, args, context) => {
     try {
         const newUser = await InsertNewUser({ OnlyName, phone, email, Bpassword, role });
         const Secret = String(process.env.JWT_SECRET);
-        let token = jwt.sign({ ID: newUser?._id, role: newUser?.role }, Secret, { expiresIn: '1d' });
+        let token = jwt.sign({ ID: newUser?._id, role: newUser?.role }, Secret, { expiresIn: '6h' });
         if (newUser) {
             context.res.cookie("token", token, {
                 httpOnly: true,
                 secure: false,
-                sameSite: "lax"
+                sameSite: "lax",
+                maxAge: 6 * 60 * 60 * 1000
             });
             console.log(token);
             return newUser;
@@ -74,11 +75,12 @@ export const SingInUser = async (_, args, context) => {
             const isPasswordValid = await bcrypt.compare(password, String(User.password));
             if (isPasswordValid) {
                 const Secret = String(process.env.JWT_SECRET);
-                let token = jwt.sign({ ID: User._id, role: User.role }, Secret, { expiresIn: '1d' });
+                let token = jwt.sign({ ID: User._id, role: User.role }, Secret, { expiresIn: '6h' });
                 context.res.cookie("token", token, {
                     httpOnly: true,
                     secure: false,
-                    sameSite: "lax"
+                    sameSite: "lax",
+                    maxAge: 6 * 60 * 60 * 1000
                 });
                 return User;
             }
@@ -182,11 +184,12 @@ export async function HandleGoogleCallback(req, res) {
             const createdUser = await InsertNewUser(NewUser);
             if (createdUser) {
                 const Secret = String(process.env.JWT_SECRET);
-                let token = jwt.sign({ ID: createdUser._id, role: createdUser.role }, Secret, { expiresIn: '1d' });
+                let token = jwt.sign({ ID: createdUser._id, role: createdUser.role }, Secret, { expiresIn: '6h' });
                 res.cookie("token", token, {
                     httpOnly: true,
                     secure: false,
-                    sameSite: "lax"
+                    sameSite: "lax",
+                    maxAge: 6 * 60 * 60 * 1000
                 });
                 console.log("Redirect ho gaya " + process.env.FRONTEND_URL);
                 return res.redirect(String(process.env.FRONTEND_URL));
@@ -202,11 +205,12 @@ export async function HandleGoogleCallback(req, res) {
                 return console.log("Error updating user Google ID");
             }
             else {
-                let token = jwt.sign({ ID: isUserInDB._id, role: isUserInDB.role }, Secret, { expiresIn: '1d' });
+                let token = jwt.sign({ ID: isUserInDB._id, role: isUserInDB.role }, Secret, { expiresIn: '6h' });
                 res.cookie("token", token, {
                     httpOnly: true,
                     secure: false,
-                    sameSite: "lax"
+                    sameSite: "lax",
+                    maxAge: 6 * 60 * 60 * 1000
                 });
                 return res.redirect(String(process.env.FRONTEND_URL));
             }

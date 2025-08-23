@@ -1,22 +1,44 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Banner } from "../Components/Banner"
-import { useQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 import Cards from '../Components/Cards'
-import { GetJobs } from '../GraphQL/Queries'
+import { GetJobs, getUser } from '../GraphQL/Queries'
 import SidePannel from '../Components/SidePannel'
 import { Job } from '../Components/Cards'
 import { Bounce, ToastContainer, toast } from 'react-toastify'
+import { UserDataContext } from '../Context/Usercontext'
 
 
 
 const LandingPage = () => {
 
   const { data, loading, error } = useQuery(GetJobs)
-  
+  const { User, setUser } = useContext(UserDataContext)
+  const [fetchUser, { data: lazyData, loading: lazyLoading, error: lazyError }] = useLazyQuery(getUser);
+
+
   const [JobData, setJobData] = useState([])
   const [isSearch, setisSearch] = useState(false)
   const [SearchData, setSearchData] = useState([])
   const [PassPannelData, setPassDataToPannel] = useState<Job | undefined>(undefined);
+
+  useEffect(() => {
+    const UserData = sessionStorage.getItem("User")
+    
+    if (!UserData) {
+      fetchUser()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (lazyData?.GetUser) {
+      setUser(lazyData.GetUser)
+      sessionStorage.setItem("User", JSON.stringify(lazyData.GetUser));
+    }
+    if (lazyError) {
+      console.error("Error fetching user:", lazyError);
+    }
+  }, [lazyData, lazyError]);
 
 
   useEffect(() => {
@@ -47,7 +69,7 @@ const LandingPage = () => {
       </div>
 
       <div className='p-3'>
-        { !isSearch ? <h3 className='p-2 text-lg text-gray-400 font-medium'> New Post With in 24H </h3> : ""}
+        {!isSearch ? <h3 className='p-2 text-lg text-gray-400 font-medium'> New Post With in 24H </h3> : ""}
         <Cards setPassDataToPannel={setPassDataToPannel} Jobs={Jobs} />
       </div>
 

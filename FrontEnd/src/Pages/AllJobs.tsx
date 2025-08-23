@@ -37,7 +37,7 @@ const AllJobs = () => {
         <NavBar Color={"black"}/>
       </div>
 
-      <div className="p-3 mt-24">
+      <div className="p-3 mt-28 ">
         <Cards Jobs={JobData} setPassDataToPannel={setPassDataToPannel} />
       </div>
 

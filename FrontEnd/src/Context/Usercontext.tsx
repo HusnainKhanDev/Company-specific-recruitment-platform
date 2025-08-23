@@ -14,10 +14,9 @@ export const UserDataContext = createContext<IUserContext>({
 const UsercontextProvider = ({children}: any) => {
 
     const [User, setUser] = useState({});
-    console.log(User)
 
     useEffect(() => {
-        const data = localStorage.getItem("User")
+        const data = sessionStorage.getItem("User")
         if(data){
           setUser(JSON.parse(data))
         }

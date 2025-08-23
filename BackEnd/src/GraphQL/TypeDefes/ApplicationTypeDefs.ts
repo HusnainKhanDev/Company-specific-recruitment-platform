@@ -17,8 +17,12 @@ export const ApplicationsTypeDefs = /* GraphQL */  `
         candidateDescription: String!
         linkedInProfile: String
         resume: String
+        status: String
+        atsFeedback: String,
+        atsScore: Int
         skills: [String]
         pastJob: PastJob!
+        createdAt: String
     }
 
     type Query {
@@ -26,6 +30,9 @@ export const ApplicationsTypeDefs = /* GraphQL */  `
         GetUserSpecificApplication: [Application]
     }
 
+    type Mutation {
+        Change_Staus(Appid: ID!, status: String!): Application
+    }
    
 `
 

@@ -41,12 +41,13 @@ export const createNewUser: ConFn<UserArgs> = async (_: any, args: UserArgs, con
         const newUser = await InsertNewUser({ OnlyName, phone, email, Bpassword, role })
 
         const Secret = String(process.env.JWT_SECRET)
-        let token: string = jwt.sign({ ID: newUser?._id, role: newUser?.role }, Secret, { expiresIn: '1d' })
+        let token: string = jwt.sign({ ID: newUser?._id, role: newUser?.role }, Secret, { expiresIn: '6h' })
         if (newUser) {
             context.res.cookie("token", token, {
                 httpOnly: true,
                 secure: false,
-                sameSite: "lax"
+                sameSite: "lax",
+                maxAge: 6 * 60 * 60 * 1000
             })
             console.log(token)
             return newUser
@@ -90,12 +91,13 @@ export const SingInUser: ConFn<SignInUser> = async (_: any, args: SignInUser, co
 
                 const Secret = String(process.env.JWT_SECRET)
 
-                let token: string = jwt.sign({ ID: User._id, role: User.role }, Secret, { expiresIn: '1d' })
+                let token: string = jwt.sign({ ID: User._id, role: User.role }, Secret, { expiresIn: '6h' })
 
                 context.res.cookie("token", token, {
                     httpOnly: true,
                     secure: false,
-                    sameSite: "lax"
+                    sameSite: "lax",
+                    maxAge: 6 * 60 * 60 * 1000
                 })
 
                 return User
@@ -158,7 +160,6 @@ export async function RedirectGoogleLoginPage(req: any, res: any) {
     //it knows from where request came, so it generate the full url and redirect it to Google login page.
 }
 
-
 export async function HandleGoogleCallback(req: Request, res: Response) {
 
     // Extracts that code from the URL — it's needed to request an access token.
@@ -218,11 +219,12 @@ export async function HandleGoogleCallback(req: Request, res: Response) {
             const createdUser = await InsertNewUser(NewUser);
             if (createdUser) {
                 const Secret = String(process.env.JWT_SECRET);
-                let token: string = jwt.sign({ ID: createdUser._id, role: createdUser.role }, Secret, { expiresIn: '1d' });
+                let token: string = jwt.sign({ ID: createdUser._id, role: createdUser.role }, Secret, { expiresIn: '6h' });
                 res.cookie("token", token, {
                     httpOnly: true,
                     secure: false,
-                    sameSite: "lax"
+                    sameSite: "lax",
+                    maxAge: 6 * 60 * 60 * 1000
                 });
                 console.log("Redirect ho gaya " + process.env.FRONTEND_URL)
                 return res.redirect(String(process.env.FRONTEND_URL))
@@ -238,11 +240,12 @@ export async function HandleGoogleCallback(req: Request, res: Response) {
                 return console.log("Error updating user Google ID");
             }
             else {
-                let token: string = jwt.sign({ ID: isUserInDB._id, role: isUserInDB.role }, Secret, { expiresIn: '1d' });
+                let token: string = jwt.sign({ ID: isUserInDB._id, role: isUserInDB.role }, Secret, { expiresIn: '6h' });
                 res.cookie("token", token, {
                     httpOnly: true,
                     secure: false,
-                    sameSite: "lax"
+                    sameSite: "lax",
+                    maxAge: 6 * 60 * 60 * 1000
                 });
                 return res.redirect(String(process.env.FRONTEND_URL));
             }

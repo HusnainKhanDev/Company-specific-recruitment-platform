@@ -6,6 +6,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { GoogleAuthRoutes } from './Routes/AuthRoutes.js';
 import { CreateNewApplication } from './Routes/ApplicationRoute.js';
+import './MiddleWare/ScheduleAts.js';
+import './MiddleWare/ScheduleEmail.js';
 dotenv.config();
 const port = process.env.PORT;
 const DataBase = process.env.DBName;

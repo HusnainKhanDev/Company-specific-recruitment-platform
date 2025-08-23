@@ -12,7 +12,7 @@ const Emp_Protector = ({children}: any) => {
     useEffect(() => {
         if (data?.GetUser) {
             if(data?.GetUser.role === "Employeer"){
-                localStorage.setItem('User', JSON.stringify(data.GetUser));
+                sessionStorage.setItem('User', JSON.stringify(data.GetUser));
                 setUser(data.GetUser);
             }
         } else if (error) {

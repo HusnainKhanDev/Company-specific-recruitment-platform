@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react'
 import NavBar from '../Components/NavBar'
 import { useQuery } from '@apollo/client'
 import { GetUserSpecificApplication } from '../GraphQL/Queries'
+import { Flip, toast, ToastContainer } from 'react-toastify'
 
 const UserApplications = () => {
-  const { data, loading, error } = useQuery(GetUserSpecificApplication)
+  const { data, loading, error } = useQuery(GetUserSpecificApplication, {
+    fetchPolicy: 'network-only'
+  })
+  
   const [applications, setApplications] = useState([])
 
   useEffect(() => {
@@ -15,18 +19,11 @@ const UserApplications = () => {
 
   if (loading) return <p className='mt-20 p-4'>Loading...</p>
   
-  if (error) {
-    return (
-      <>
-        <div className='text-black bg-blue-300 shadow-md fixed top-0 left-0 w-full z-50'>
-          <NavBar Color={"black"}/>
-        </div>
+  if(error?.graphQLErrors[0]?.message){
+      toast.error(error?.graphQLErrors[0].message)
 
-        <p className='mt-20 p-4 text-red-500 text-lg'>Error loading applications</p>
-      </>
-    )
   }
-
+  
   if (applications.length === 0) {
     return (
       <>
@@ -43,14 +40,14 @@ const UserApplications = () => {
   }
 
   return (
-    <>
+    <div className='mt-20'>
       {/* Navbar only once */}
       <div className='text-black bg-blue-300 shadow-md fixed top-0 left-0 w-full z-50'>
         <NavBar Color={"black"}/>
       </div>
 
       {applications.map((app: any) => (
-        <div key={app._id} className='mt-24 w-[50%] p-4'>
+        <div key={app._id} className=' w-[50%] p-4'>
           <div
             tabIndex={0}
             className='collapse collapse-arrow border-2 border-blue-400 rounded-lg bg-white shadow-sm hover:shadow-md transition-all duration-300'
@@ -59,7 +56,10 @@ const UserApplications = () => {
 
             {/* Header */}
             <div className='collapse-title space-y-1'>
-              <p className='text-lg font-semibold text-gray-800'>{app.fullname}</p>
+              <div className='flex items-center justify-between'>
+                <p className='text-lg font-semibold text-gray-800'>{app.fullname}</p>
+                <p className={`font-medium ${app.status ==="Accepted" ? "text-green-500" : app.status ==="Rejected" ? "text-red-500": "text-blue-500"}`}> Status: {app.status}</p>
+              </div>
 
               <div className='flex gap-5 text-gray-600'>
                 <p className='flex items-center gap-1'>
@@ -133,7 +133,20 @@ const UserApplications = () => {
           </div>
         </div>
       ))}
-    </>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Flip}
+      />
+    </div>
   )
 }
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createApplication, FetchAllApplications, FindAppByUserID } from "../Services/ApplicationServices.js";
+import { createApplication, EditStatus, FetchAllApplications, FindAppByUserID } from "../Services/ApplicationServices.js";
 import { CheckAuthentication } from "../MiddleWare/isAuthenticated.js";
 import { ConFn } from "../Types_Interfaces.js";
 import { GraphQLError } from "graphql";
@@ -30,7 +30,7 @@ export const submitApplication = async (req: Request, res: Response) => {
     console.log(resume)
 
 
-    if (!fullname || !email || !phone || !jobId || !candidateId || !resume ) {
+    if (!fullname || !email || !phone || !jobId || !candidateId || !resume || !skills ) {
         console.log(fullname, email, phone, jobId, candidateId, resume, skills)
         return res.status(400).json({
             error: "Fullname, email, phone, jobId, resume, and skills are required."
@@ -50,8 +50,8 @@ export const submitApplication = async (req: Request, res: Response) => {
         candidateId,
         candidateDescription: candidateDescription || "" ,
         linkedInProfile: linkedInProfile || "",
-        resume: resume || "",
-        skills: data3 || [],
+        resume: resume,
+        skills: data3,
         pastJob: {
             companyName: companyName || "",
             position: position || "",
@@ -65,6 +65,7 @@ export const submitApplication = async (req: Request, res: Response) => {
         if (!application) {
             return res.status(500).json({ error: "Failed to submit application." });
         }
+
         return res.status(201).json({
             message: "Application submitted successfully.",
             application
@@ -116,7 +117,6 @@ export const FindApplicationsByUser: ConFn<null> = async (_: any, args: any, con
         let UserID = context.User.ID
 
         const Applications = await FindAppByUserID(UserID);
-        console.log("Applications: ", Applications)
         return Applications;
     }
     catch (err: any) {
@@ -128,4 +128,51 @@ export const FindApplicationsByUser: ConFn<null> = async (_: any, args: any, con
             }
         });
     }
+}
+
+export const ChangeStaus:ConFn<{Appid: string , status: string }> = async (_: any, args, context: any) => {
+    if (!context.User) {
+        throw new GraphQLError("Please login to continue.", {
+            extensions: {
+            code: "UNAUTHENTICATED_USER",
+            statusCode: 401,
+            },
+        });
+    }
+
+    if (context.User.Role !== "Employeer") {
+        throw new GraphQLError("Only Employers can create jobs.", {
+            extensions: {
+            code: "FORBIDDEN",
+            statusCode: 403,
+            },
+        });
+    }
+
+    try{
+        const {Appid, status} = args
+        
+        if(!Appid || !status) {
+            throw new GraphQLError("Applications ID And Status is Required", {
+                extensions: {
+                code: "BAD_REQUEST",
+                statusCode: 400,
+                },
+            });
+        }
+
+        let Res = await EditStatus(Appid, status)
+        if(Res){
+            return Res
+        }
+    }
+    catch(err: any){
+        throw new GraphQLError(err.message, {
+            extensions:{
+                code: "SERVER_ERROR",
+                statusCode: 500
+            }
+        })
+    }
+
 }

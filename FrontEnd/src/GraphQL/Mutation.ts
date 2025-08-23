@@ -50,3 +50,23 @@ export const EditJob = gql`
         }
     }
 `
+
+export const DeleteJob = gql `
+    mutation DeleteJob($id: String!) {
+        DeleteJob(ID: $id) {
+            msg
+            statusCode
+        }
+    }
+`
+
+// Application Mutation-----------------------------------------
+
+export const EditStatus = gql`
+    mutation Change_Staus($appid: ID!, $status: String!) {
+        Change_Staus(Appid: $appid, status: $status) {
+            _id
+            status
+        }
+    }
+`

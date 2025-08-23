@@ -8,22 +8,27 @@ const NavBar = ({Color}: any) => {
 
     const navigate = useNavigate()
     const { User } = useContext(UserDataContext)
-    console.log("User from Logout: ", User)
+    
 
     async function LogOutUser(){
             try{
-                localStorage.removeItem("User")
-                let res = await axios.post("http://localhost:4000/logout", {}, { withCredentials: true })
-                if(res){
+                if(!sessionStorage.getItem("User")) {
                     navigate("/Auth")
+                    return
                 }
-                console.log(res)
+                else{
+                    sessionStorage.removeItem("User")
+                    let res = await axios.post("http://localhost:4000/logout", {}, { withCredentials: true })
+                    if(res){
+                        navigate("/Auth")
+                    }
+                }
             }
             catch(err){
                 console.log(err)
             }
         }
-
+        
     return (
         <div>
             <nav className="w-full flex justify-between items-center px-8 py-4">

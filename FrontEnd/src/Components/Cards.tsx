@@ -17,18 +17,16 @@ export interface Job {
 
 
 const Cards = (prop: any) => {
-    console.log("prop.Jobs ", prop.Jobs)
+    
     if(!prop.Jobs) return <p className='text-xl font-medium'>No jobs found</p>
 
-    if (prop.Jobs.length === 0) return <p className='text-xl font-medium'>No New Jobs are Avialable!</p>;
+    if (prop.Jobs.length === 0) return <p className='text-xl font-medium ml-5'> Jobs are Not Avialable!</p>;
 
     return prop.Jobs.map((i: Job) => {
         const ProperDate = new Date(Number(i.createdAt));
 
         return (
             <div>
-
-
                 <div className="card w-[70%] border border-gray-200 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-gradient-to-r from-purple-50 to-white">
                     <div className="card-body ">
 
@@ -51,7 +49,7 @@ const Cards = (prop: any) => {
                         </div>
 
                         <p className="text-gray-600 text-lg w-[70%]">
-                            {i.description}
+                            {i.description.length > 20 ? i.description.split(" ").slice(0,35).join(" ") + " ....": "hello"}
                         </p>
 
                         <h2 className="text-lg font-semibold text-green-600">

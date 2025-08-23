@@ -115,3 +115,14 @@ export interface ApplicationParamIF {
         endDate: Date
     }
 }
+
+
+// ATS Data Object 
+
+export interface ATSDataObj {
+    CandidateResumeExtractedText: string,
+    JobDiscription: string,
+    JobRequirment: string[],
+    CandidateSkills: string[],
+    ID: any
+}

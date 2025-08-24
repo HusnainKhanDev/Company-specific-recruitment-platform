@@ -16,7 +16,6 @@ const ShowCharts = () => {
                 let response = await axios.get("http://localhost:4000/get/analytics" ,{withCredentials: true})
                 if(response){
                     setAnalyticsData(response.data.AnalyticsData)
-                    console.log(response.data.AnalyticsData)
                 }
             }
             catch(err){
@@ -30,7 +29,7 @@ const ShowCharts = () => {
     <div className="bg-blue-100 min-h-screen flex items-center justify-center p-6">
       <div className="flex flex-col gap-6 w-full max-w-6xl">
         
-        {/* Row 1 */}
+
         <div className="flex gap-6">
           <div className="bg-white rounded-2xl shadow-md p-4 w-1/2">
             <BarChartUIC ChartData={AnalyticsData?.ApplicationcountPerJob}/>
@@ -40,7 +39,7 @@ const ShowCharts = () => {
           </div>
         </div>
 
-        {/* Row 2 */}
+ 
         <div className="flex gap-6">
           <div className="bg-white rounded-2xl shadow-md p-4 w-1/2">
             <LineChartUIC appsPerDay={AnalyticsData?.appsPerDay} />

@@ -59,9 +59,9 @@ const ApplicationSchema = new mongoose.Schema({
     },
     skills: {
         type: [String],
-        default: [],
         required: true
     },
+    emailed: {type: Boolean, default: false},
     pastJob: PastJobSchema
 }, { timestamps: true }); 
 

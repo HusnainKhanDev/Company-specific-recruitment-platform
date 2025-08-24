@@ -37,7 +37,7 @@ const SidePannel = ({ PassPannelData }: PassPannelDataIF) => {
           {/* Description */}
           <div>
             <h2 className="text-lg font-semibold text-gray-700 mb-1 -mt-2">Description</h2>
-            <p className="text-justify h-44 overflow-y-scroll bg-blue-50 p-3 rounded-lg leading-relaxed text-gray-600 hide-scrollbar">
+            <p className="whitespace-pre-wrap text-justify h-44 overflow-y-scroll bg-blue-50 p-3 rounded-lg leading-relaxed text-gray-600 hide-scrollbar">
               {PassPannelData.description}
             </p>
           </div>

@@ -38,9 +38,9 @@ const NavBar = ({Color}: any) => {
                 {/* Right side: Menu + Logout */}
                 <div className="flex items-center space-x-6">
                     <ul className="flex space-x-6">
-                        <Link to={'/'} className="hover:font-semibold cursor-pointer">Home</Link>
-                        <Link to={'/all/job'} className="hover:font-semibold cursor-pointer">All Jobs</Link>
-                        <Link to={'/user/appliations'} className="hover:font-semibold cursor-pointer">My Applications</Link>
+                        <Link to={'/'} className="hover:font-semibold cursor-pointer"><i className="ri-home-2-line"></i> Home</Link>
+                        <Link to={'/all/job'} className="hover:font-semibold cursor-pointer"><i className="ri-briefcase-line"></i> All Jobs</Link>
+                        <Link to={'/user/appliations'} className="hover:font-semibold cursor-pointer"><i className="ri-article-line"></i> My Applications</Link>
                         <li className="hover:font-semibold cursor-pointer">About Us</li>
                     </ul>
 

@@ -5,10 +5,10 @@ import { SendMailToCandidate } from './SendMail.js';
 cron.schedule('* 1 * * *' , async () => {   
     console.log("Ya chal raha haaa")
     try{
-        let result: DataType[] = await ApplicationModel.find({
-            status: 'Pending'
+        let result = await ApplicationModel.find({
+            $and:[{status: {$eq: 'Accepted'}}, {emailed: {$eq: false}}]
         })
-            .select("email jobId candidateId") // keep IDs so populate can use them
+            .select("email jobId candidateId _id") // keep IDs so populate can use them
             .populate([
                 { path: "candidateId", select: "fullname" },
                 { path: "jobId", select: "title" }
@@ -24,15 +24,16 @@ cron.schedule('* 1 * * *' , async () => {
     }
 })
 
-type DataType = {
-    email: string
-}
 
 async function PassData(Data: any){
     for(let item of Data){
         if(item){
             console.log(item.email, item?.jobId.title, item.candidateId.fullname)
             await SendMailToCandidate(item.email,  item.candidateId.fullname, item?.jobId.title)
+            await ApplicationModel.findByIdAndUpdate(
+                item._id,
+                {$set:{emailed: true}}
+            )
         }
     }
 }

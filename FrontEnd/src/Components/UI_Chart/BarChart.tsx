@@ -19,9 +19,6 @@ const BarChartUIC = ({ChartData}: any) => {
     })
   }
 
-  
-
-  console.log("From BarChat: ", Data)
 
   return (
     <div className="w-[100%] h-[250px]">

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UserDataContext } from '../Context/Usercontext';
 import axios from 'axios';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
@@ -76,9 +76,15 @@ const ApplyForm = () => {
 
   return (
 
-    <div className="p-6 space-y-6 w-screen h-screen bg-[#d1d1d1]">
+    <div className="p-6 space-y-3 w-screen h-screen bg-[#d1d1d1]">
+        <Link //Back Button
+          to={"/"}
+          className='absolute text-xl flex gap-2 text-black '>
+          <i className="ri-arrow-go-back-line"></i> 
+          <p>Back</p>
+        </Link>
       {/* Steps Indicator */}
-      <div className="flex justify-center text-lg h-16">
+      <div className=" flex justify-center text-lg h-16 ">
         <ul className="steps w-[50%] ">
           <li className={` step ${counter >= 0 ? "step-primary" : ""}`}>Personal Info</li>
           <li className={`step ${counter >= 1 ? "step-primary" : ""}`}>Professional Profile</li>
@@ -88,7 +94,7 @@ const ApplyForm = () => {
       </div>
 
       {/* Carousel */}
-      <div className="carousel w-[60%] ml-[21%] rounded-lg  shadow-black shadow-lg ">
+      <div className="carousel w-[60%] ml-[21%] rounded-lg mt-2   shadow-black shadow-lg ">
 
         {/* Slide 1 - Personal Information */}
         <div id="slide1" className="carousel-item relative w-full">
@@ -116,7 +122,7 @@ const ApplyForm = () => {
             </div>
 
             <input value={linkedInProfile} onChange={(e) => setLinkedInProfile(e.target.value)} type="text" placeholder="LinkdIn Profile" className="input input-bordered w-[600px] border-2 hover:border-black" />
-            <input value={skills} onChange={(e) => setSkills(e.target.value)} type="text" placeholder="Skills Comma Separated e.g: react, nodejs, java" className="input input-bordered w-[600px] border-2 hover:border-black" />
+            <input required value={skills} onChange={(e) => setSkills(e.target.value)} type="text" placeholder="Skills Comma Separated e.g: react, nodejs, java" className="input input-bordered w-[600px] border-2 hover:border-black" />
             <textarea value={candidateDescription} onChange={(e) => setCandidateDescription(e.target.value)} rows={3} placeholder="Tell us something about you" className=" textarea w-[600px] shadow-lg"></textarea>
           </div>
         </div>
@@ -167,7 +173,7 @@ const ApplyForm = () => {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between w-[60%] ml-[21%]">
+      <div className="flex justify-between w-[60%] ml-[21%] py-3">
         <button
           onClick={() => setCounter(counter-1)}
           className={`btn btn-primary w-32 h-14 text-lg  ${counter === 0 ? 'btn-disabled' : ''}`}

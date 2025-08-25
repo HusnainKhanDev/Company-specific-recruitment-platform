@@ -130,7 +130,7 @@ export const FindApplicationsByUser: ConFn<null> = async (_: any, args: any, con
     }
 }
 
-export const ChangeStaus:ConFn<{Appid: string , status: string }> = async (_: any, args, context: any) => {
+export const ChangeStatus:ConFn<{Appid: string , status: string }> = async (_: any, args, context: any) => {
     if (!context.User) {
         throw new GraphQLError("Please login to continue.", {
             extensions: {

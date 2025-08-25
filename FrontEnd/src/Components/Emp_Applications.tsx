@@ -6,13 +6,13 @@ const Emp_Applications = (prop: any) => {
 
     const [changeStatusFun, {}] = useMutation(EditStatus, {
         update(cache, {data}) {
-            if(!data.Change_Staus) return
+            if(!data.Change_Status) return
 
             cache.modify({
-                id: cache.identify(data.Change_Staus),
+                id: cache.identify(data.Change_Status),
                 fields: {
                     status(){
-                        return data.Change_Staus.status
+                        return data.Change_Status.status
                     }
                 }
             })
@@ -28,7 +28,7 @@ const Emp_Applications = (prop: any) => {
             }
         })
 
-        console.log(Res.data.Change_Staus.status)
+        console.log(Res.data.Change_Status.status)
     }
 
     return (

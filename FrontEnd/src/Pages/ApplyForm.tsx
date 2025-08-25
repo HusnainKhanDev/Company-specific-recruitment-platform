@@ -35,7 +35,7 @@ const ApplyForm = () => {
   const [endDate, setendDate] = useState("");
 
   
-
+console.log(User._id)
   useEffect(() => {
       setJobId(location.state?.ID)
   }, [])
@@ -130,7 +130,8 @@ const ApplyForm = () => {
         {/* Slide 3 - Work Experience */}
         <div id="slide3" className="carousel-item relative w-full">
           <div className='bg-gradient-to-bl from-[#23b993]  to-[#1f9199] w-full p-8 space-y-5'>
-            <h2 className="text-2xl text-white font-bold">Work Experience</h2>
+            <h2 className="text-2xl -mb-4 text-white font-bold">Work Experience</h2>
+            <h1 className='text-white'>Tell Us, About Your Last or Current Job</h1>
             <input value={companyName} onChange={(e) => setCompanyName(e.target.value)} type="text" placeholder="Company Name" className="input input-bordered w-[600px] border-2 hover:border-black" />
             <input value={position} onChange={(e) => setposition(e.target.value)} type="text" placeholder="Position" className="input input-bordered w-[600px] border-2 hover:border-black" />
             <div className="w-[600px] bg-white rounded-lg flex items-center px-5 justify-between border-2 hover:border-black">

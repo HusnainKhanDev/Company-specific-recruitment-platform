@@ -62,6 +62,7 @@ const Emp_AllApplications = () => {
   function ClearSearch(){
     setFilteredData([])
     let apps: any = sessionStorage.getItem("AppsData")
+    setvalue("")
     if(apps){
       let JsonData = JSON.parse(apps)
       setAppData(JsonData)
@@ -77,12 +78,13 @@ const Emp_AllApplications = () => {
 
       {/* Search Bar */}
       <div className='p-4'>
-        <div className="flex items-center relative bg-gray-300 rounded-full overflow-hidden shadow-lg w-full max-w-[36%]">
+        <div className="flex items-center relative bg-blue-200  rounded-full overflow-hidden shadow-lg w-full max-w-[36%]">
 
           {/* Search Icon + Input */}
           <div className="flex items-center px-4">
             <i className="ri-search-line text-gray-500 text-lg"></i>
             <input
+              value={value}
               onChange={(e) => setvalue(e.target.value)}
               type="text"
               placeholder="Job title or keyword"

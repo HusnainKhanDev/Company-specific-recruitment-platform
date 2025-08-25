@@ -31,7 +31,7 @@ export const ApplicationsTypeDefs = /* GraphQL */ `
     }
 
     type Mutation {
-        Change_Staus(Appid: ID!, status: String!): Application
+        Change_Status(Appid: ID!, status: String!): Application
     }
    
 `;

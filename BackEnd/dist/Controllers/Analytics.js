@@ -59,7 +59,7 @@ export async function ShowAnalytics(request, response) {
         if (appsPerDay && CountStatus && AvgScorePerJob && ApplicationcountPerJob) {
             response.status(200).json({ AnalyticsData });
         }
-        console.log(AnalyticsData);
+        // console.log(AnalyticsData)
     }
     catch (err) {
         console.log(err);

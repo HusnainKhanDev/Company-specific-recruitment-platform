@@ -1,4 +1,4 @@
-import { ChangeStaus, FindApplicationsByUser, GetAllApplications } from "../../Controllers/ApplicationController.js";
+import { ChangeStatus, FindApplicationsByUser, GetAllApplications } from "../../Controllers/ApplicationController.js";
 import { GetJobById } from "../../Services/JobServices.js";
 import { GetUserByID } from "../../Services/UserServices.js";
 
@@ -9,7 +9,7 @@ export const ApplicationResolvers = {
   },
 
   Mutation: {
-    Change_Staus: ChangeStaus
+    Change_Status: ChangeStatus
   },
 
   // it is called Nested Resolver 

@@ -53,9 +53,12 @@ export async function searchJob(field: string, value: string) {
             throw new Error("Field and value are required for search.");
         }
 
-        const query: any = { [field]: value, isDeleted: false }
+        const regex = new RegExp(value, "i");
 
+        const query: any = { [field]: regex, isDeleted: false }
+        // console.log(query)
         const result = await JobModel.find(query);
+        // console.log(result)
 
         if (!result || result.length === 0) {
             throw new Error("No jobs found for the given search criteria.");

@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import ApplicationModel from '../Models/ApplicationModel.js';
 import { PassDataToATS } from '../ATS_System/DataManagerATS.js';
-cron.schedule('* 1 * * *', async () => {
+cron.schedule('* 2 * * *', async () => {
     console.log("Ya chal raha ha");
     try {
         let result = await ApplicationModel.find({

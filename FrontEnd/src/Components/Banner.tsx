@@ -64,7 +64,7 @@ export function Banner(prop: any) {
             <input
               onChange={(e) => setvalue(e.target.value)}
               type="text"
-              placeholder="Job title or keyword"
+              placeholder="keyword e,g: full-time, remote"
               className="p-3 w-48 text-black outline-none"
             />
           </div>

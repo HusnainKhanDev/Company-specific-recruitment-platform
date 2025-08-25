@@ -24,10 +24,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     const UserData = sessionStorage.getItem("User")
-    
-    if (!UserData) {
-      fetchUser()
-    }
+    if (!UserData) { fetchUser() }
   }, [])
 
   useEffect(() => {
@@ -68,8 +65,8 @@ const LandingPage = () => {
         <Banner setisSearch={setisSearch} isSearch={isSearch} setSearchData={setSearchData} toast={toast} />
       </div>
 
-      <div className='p-3'>
-        {!isSearch ? <h3 className='p-2 text-lg text-gray-400 font-medium'> New Post With in 24H </h3> : ""}
+      <div className='ml-5 mt-5'>
+        {!isSearch ? <h3 className='text-lg text-gray-400 font-medium'> New Post With in 24H </h3> : ""}
         <Cards setPassDataToPannel={setPassDataToPannel} Jobs={Jobs} />
       </div>
 

@@ -24,7 +24,7 @@ const SidePannel = ({ PassPannelData }: PassPannelDataIF) => {
       <div className="drawer-side">
         <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
 
-        <ul className="menu bg-white min-h-full w-[30%] p-3 space-y-4">
+        <ul className="menu bg-white min-h-full w-[40%] p-3 space-y-4">
           {/* Job Title */}
           <div>
             <h1 className="font-bold text-xl text-gray-800">{PassPannelData.title.toUpperCase()}</h1>
@@ -51,7 +51,7 @@ const SidePannel = ({ PassPannelData }: PassPannelDataIF) => {
                   <li key={index}>
                     <div className='p-1'>
                       <i className="ri-circle-fill text-[8px]"></i>
-                      <p>{req}</p>
+                      <p className=''>{req.toUpperCase()}</p>
                     </div> 
                   </li>
                 ))}

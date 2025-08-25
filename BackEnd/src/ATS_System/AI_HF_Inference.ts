@@ -5,7 +5,8 @@ import { SetDataInDocument } from "./UpdateAppWithAIResult.js";
 
 export async function Ats_AI(DataObje: ATSDataObj) {
 
-    let Prompt = `You are an expert AI recruiter with deep understanding of candidate evaluation and job matching. I will provide the following information:
+    let Prompt = `
+    You are an expert AI recruiter with deep understanding of candidate evaluation and job matching. I will provide the following information:
 
     1. Job Description: ${DataObje.JobDiscription}  
     2. Job Requirements: ${JSON.stringify(DataObje.JobRequirment)}  
@@ -13,6 +14,16 @@ export async function Ats_AI(DataObje: ATSDataObj) {
     4. Candidate Skills: ${JSON.stringify(DataObje.CandidateSkills)}
 
     Your task is to analyze and compare the candidate’s resume and skills against the job description and requirements. Provide a professional assessment of the candidate’s suitability for this job.
+
+    Scoring Guidelines (apply strictly):  
+    - Start from 50 as a neutral baseline.  
+    - Add points only for strong matches with requirements and job description.  
+    - Deduct points clearly for missing skills, irrelevant experience, or weak alignment.  
+    - Strong fit across most requirements = 70–85.  
+    - Exceptional alignment with all requirements = 90+.  
+    - Partial fit with some gaps = 50–69.  
+    - Very weak or irrelevant profile = below 50.  
+    Do not inflate scores — be critical and realistic.
 
     Requirements for your analysis:  
     - Check if the candidate has the required skills listed in JobRequirment.  
@@ -23,17 +34,16 @@ export async function Ats_AI(DataObje: ATSDataObj) {
     - Provide a numeric score between 0 and 100 representing overall suitability.  
     - Provide concise, actionable feedback in 2-3 sentences explaining reasoning and gaps.  
 
-    **Output format:**  
-    Strictly return a JSON object as follows, without adding any extra text
+    Output format:  
+    Strictly return a JSON object as follows, without adding any extra text.  
     Return a JSON object ONLY. Do NOT add markdown, code blocks, explanations, or any extra text. The JSON should look like this exactly:
 
     {
     "Score": <number between 0 and 100>,  
     "feedback": "<2-3 concise sentences summarizing suitability, strengths, and gaps>"
     }
-
-    Focus on accuracy, relevance, and completeness. Do not include anything outside this JSON.
     `
+
     // console.log(Prompt)
     const client = new OpenAI({
         baseURL: "https://router.huggingface.co/v1",

@@ -96,7 +96,7 @@ else{
           </Pie>
         </PieChart>
       </ResponsiveContainer>
-      <div className="absolute top-0">
+      <div className="absolute top-5">
         <h1 className="text-green-500 font-medium">Accepted</h1>
         <h1 className="text-blue-600 font-medium">Pending</h1>
         <h1 className="text-red-600 font-medium">Rejected</h1>

@@ -27,7 +27,7 @@ const Cards = (prop: any) => {
 
         return (
             <div>
-                <div className="card w-[70%] border border-gray-200 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-gradient-to-r from-purple-50 to-white">
+                <div className="card w-[70%] mt-8 border border-gray-200 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-gradient-to-r from-purple-50 to-white">
                     <div className="card-body ">
 
                         <h2 className="card-title text-2xl font-bold text-gray-800 -mb-3">

@@ -63,8 +63,8 @@ export const DeleteJob = gql `
 // Application Mutation-----------------------------------------
 
 export const EditStatus = gql`
-    mutation Change_Staus($appid: ID!, $status: String!) {
-        Change_Staus(Appid: $appid, status: $status) {
+    mutation Change_Status($appid: ID!, $status: String!) {
+        Change_Status(Appid: $appid, status: $status) {
             _id
             status
         }

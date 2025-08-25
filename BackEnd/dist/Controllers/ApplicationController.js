@@ -98,7 +98,7 @@ export const FindApplicationsByUser = async (_, args, context) => {
         });
     }
 };
-export const ChangeStaus = async (_, args, context) => {
+export const ChangeStatus = async (_, args, context) => {
     if (!context.User) {
         throw new GraphQLError("Please login to continue.", {
             extensions: {

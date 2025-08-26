@@ -113,8 +113,8 @@ const Emp_Applications = (prop: any) => {
                                 <h1 className='font-semibold text-gray-900'>Last Job</h1>
                                 <p className='text-gray-600'>{app.pastJob?.companyName}</p>
                                 <p className='text-gray-600'>{app.pastJob?.position}</p>
-                                <p className='text-gray-600'>{app.pastJob?.startDate ? new Date(app.pastJob.endDate).toLocaleDateString() : ""}</p>
-                                <p className='text-gray-600'>{app.pastJob?.endDate ? new Date(app.pastJob.endDate).toLocaleDateString() : ""}</p>
+                                <p className='text-gray-600'><strong>Start Date: </strong>{app.pastJob?.startDate ? new Date(Number(app.pastJob.startDate)).toLocaleDateString() : ""}</p>
+                                <p className='text-gray-600'> <strong>End Date: </strong> {app.pastJob?.endDate ? new Date(Number(app.pastJob.endDate)).toLocaleDateString() : ""}</p>
                             </div>
                             <hr />
 

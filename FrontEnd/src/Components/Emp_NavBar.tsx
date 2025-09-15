@@ -17,7 +17,7 @@ const Emp_NavBar = () => {
                 else{
                     sessionStorage.removeItem("User")
                     sessionStorage.removeItem("AppsData")
-                    let res = await axios.post("http://localhost:4000/logout", {}, { withCredentials: true })
+                    let res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/logout`, {}, { withCredentials: true })
                     if(res){
                         navigate("/Auth")
                     }

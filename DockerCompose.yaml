@@ -1,0 +1,38 @@
+services:
+  mongo:
+    image: mongo:6
+    container_name: JobProtalDB
+    expose:
+      - "27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin2
+      MONGO_INITDB_ROOT_PASSWORD: root2
+    volumes:
+      - job-portal-data:/data/db
+  
+  job-portal-backend:
+    build: ./BackEnd
+    image: job-protal-be:1.0
+    container_name: JobProtalBE
+    ports:
+      - "4000:4000"
+    volumes:
+     - resume-vol:/backendapp/Uploads
+    environment: #chagne mongo URL in dist-->app with this one for container
+      MONGO_URI: mongodb://admin2:root2@mongo:27017/CompanySpecific_JobPortal_WithATS?authSource=admin
+  
+  job-portal-frontend:
+    build: ./FrontEnd
+    image: job-protal-fe:1.0
+    container_name: JobProtalFE
+    ports:
+      - "5173:5173"
+    environment:
+      - ./FrontEnd/.env.docker
+
+volumes:
+  job-portal-data:
+  resume-vol:
+    
+
+

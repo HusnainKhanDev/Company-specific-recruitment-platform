@@ -85,7 +85,7 @@ const UserApplications = () => {
                   <i className='ri-article-line text-lg'></i> Resume:
                 </span>
                 <a
-                  href={`http://localhost:4000/uploads/${app.resume}`}
+                  href={`${import.meta.env.VITE_API_BASE_URL}/uploads/${app.resume}`}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='ml-2 text-blue-500 underline hover:text-blue-700'

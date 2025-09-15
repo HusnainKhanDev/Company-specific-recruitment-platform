@@ -11,7 +11,7 @@ const ShowCharts = () => {
   useEffect(() => {
     async function CallApi() {
       try {
-        let response = await axios.get("http://localhost:4000/get/analytics", {
+        let response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/get/analytics`, {
           withCredentials: true,
         });
         if (response) {

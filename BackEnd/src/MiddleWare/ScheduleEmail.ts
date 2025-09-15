@@ -2,7 +2,7 @@ import cron from 'node-cron'
 import ApplicationModel from '../Models/ApplicationModel.js'
 import { SendMailToCandidate } from './SendMail.js';
 
-cron.schedule('* 5 * * *' , async () => {   
+cron.schedule('0 0 * * *' , async () => {   
     console.log("email chal rahi haaa")
     try{
         let result = await ApplicationModel.find({

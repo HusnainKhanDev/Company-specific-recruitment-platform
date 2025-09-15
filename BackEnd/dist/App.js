@@ -24,8 +24,8 @@ app.use(cors({
 //Auth Route------------------------------------------------
 GoogleAuthRoutes(app);
 CreateNewApplication(app);
-// DataBase Connection--------------------------------------
-mongoose.connect(`mongodb://127.0.0.1/${DataBase}`)
+// DataBase Connection--------------------------------------`mongodb://127.0.0.1/${DataBase}`
+mongoose.connect(process.env.MONGO_URI || `mongodb://127.0.0.1/${DataBase}`)
     .then(async () => {
     console.log('DataBase is Connected Successfuly');
 })

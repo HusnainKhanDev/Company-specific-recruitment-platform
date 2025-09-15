@@ -20,9 +20,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
     },
     googleId: {
-        type: String,
-        unique: true,
-        sparse: true,    
+        type: String,  
         default: null,
     },
     role: {

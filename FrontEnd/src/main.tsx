@@ -7,7 +7,7 @@ import UsercontextProvider from "./Context/Usercontext"
 
 
 export const Client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri: `http://localhost:4000/graphql`,
   cache: new InMemoryCache(),
   credentials: "include"
 })

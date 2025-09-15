@@ -6,13 +6,7 @@ import Login from '../Components/Login';
 const AuthPage = () => {
 
     const [isLogin, setIsLogin] = useState(false);
-
-
-
-
-
-
-    
+ 
     return (
         <div className='bg-[#2c2638] w-full h-screen relative'>
             <div className='w-[50%] h-screen absolute left-5 flex  items-center ' >

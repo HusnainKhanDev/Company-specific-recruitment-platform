@@ -59,7 +59,7 @@ console.log(User._id)
     formdata.append("endDate", endDate)
 
     try{
-      let response = await axios.post("http://localhost:4000/submit/application", formdata, {withCredentials: true})
+      let response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/submit/application`, formdata, {withCredentials: true})
       console.log(response)
       console.log(response)
       if(response.status === 201){

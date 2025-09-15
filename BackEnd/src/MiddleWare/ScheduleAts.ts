@@ -2,7 +2,7 @@ import cron from 'node-cron'
 import ApplicationModel from '../Models/ApplicationModel.js'
 import { PassDataToATS } from '../ATS_System/DataManagerATS.js'
 
-cron.schedule('* * * * *' , async () => {   
+cron.schedule('0 0 * * *' , async () => {   
     console.log("Ya chal raha ha")
     try{
         let result: DataType[] = await ApplicationModel.find({
@@ -10,9 +10,9 @@ cron.schedule('* * * * *' , async () => {
                 {atsFeedback:{$eq: "In Progress"}},
                 {atsScore: {$eq: 0}}
             ]
-        }).select("_id jobId resume skills")
+        }).select("_id jobId resume skills");
         
-        PassData(result)
+        if(result.length > 0 ) PassData(result)
     }
     catch(err){
         console.log(err)

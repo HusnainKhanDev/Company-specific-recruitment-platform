@@ -1,11 +1,11 @@
-FROM node:20-alpine
+FROM node:18
 
 WORKDIR /frontendapp
 
-COPY package*.json ./
+COPY ./dist .
 
-RUN npm install
+RUN npm install -g serve
 
-COPY . /frontendapp
+EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+CMD ["serve", "-s", ".", "-l", "3000"]

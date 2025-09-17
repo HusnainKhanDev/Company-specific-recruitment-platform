@@ -1,9 +1,9 @@
 services:
   mongo:
     image: mongo:6
-    container_name: JobProtalDB
-    expose:
-      - "27017"
+    container_name: JobPortalDB
+    ports:
+      - "27017:27017" # use ports instead of expose if you want local access
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin2
       MONGO_INITDB_ROOT_PASSWORD: root2
@@ -12,27 +12,26 @@ services:
   
   job-portal-backend:
     build: ./BackEnd
-    image: job-protal-be:1.0
-    container_name: JobProtalBE
+    image: job-portal-be:1.0
+    container_name: JobPortalBE
     ports:
       - "4000:4000"
     volumes:
-     - resume-vol:/backendapp/Uploads
-    environment: #chagne mongo URL in dist-->app with this one for container
+      - resume-vol:/backendapp/Uploads
+    environment:
       MONGO_URI: mongodb://admin2:root2@mongo:27017/CompanySpecific_JobPortal_WithATS?authSource=admin
+    depends_on:
+      - mongo
   
   job-portal-frontend:
     build: ./FrontEnd
-    image: job-protal-fe:1.0
-    container_name: JobProtalFE
+    image: job-portal-fe:1.0
+    container_name: JobPortalFE
     ports:
-      - "5173:5173"
-    environment:
-      - ./FrontEnd/.env.docker
+      - "3000:3000"
+    depends_on:
+      - job-portal-backend
 
 volumes:
   job-portal-data:
   resume-vol:
-    
-
-
